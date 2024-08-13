@@ -1,0 +1,74 @@
+REDIRECCIONES
+
+La Entrada Estándar entra por teclado: posición 0 
+La Salida Estándar sale por pantalla: posición 1
+La Salida de Errores sale por pantalla: posición 2
+
+podemos configurar las posiciones para que las entradas o salidas salgan o entren de otros lugares como un fichero
+
+/dev/null papelera
+
+/*el comando da igual*/
+entrada estandar <
+ls < bath -> lee el fichero
+salida estandar >
+ls > out ->Escribe en el fichero out(si no existe lo crea, si no lo machaca)
+salida estandar >>
+ls >> out -> Lo mismo que > pero no machaca, si no que añade por el final
+salida estandar y errores &>
+ls &> x -> lo mismo que > pero con errores y salida normal
+salida errores 2>
+ls 2> y ->lo mismo que &> pero solo con errores
+salida errores -> elimina errores
+ls &>/dev/null -> los errores no saldrian
+
+TUBERÍAS
+
+una tubería sirve para usar dos instrucciones a la vez -> primero|segundo, siendo "|" la tubería
+se pueden encadenar mas de unu -> primero|segundo|tercero
+también el comando de la derecha espera usar la entrada de la izquierda para proporcionar una salida
+
+ls>temp 
+more<temp
+listamos ls y colocamos en temp y tras ello leemos temp con more
+
+en una instrucción: ls|more 
+
+SUSTITUCIÓN DE COMANDOS
+
+$( ) = Sustitución de comandos
+dentro del parentesis colocariamos la entrada que queremos convertir en lo que sea que necesite el otro comando
+que colocariamos delante 
+
+Si buscamos
+find file.txt
+para luego hacerle un joe y abrirlo
+en 2 instrucciones
+
+no se puede usar una tubería porque find devuelve una ruta y joe espera un fichero
+
+en una instrucción: joe $(find file.txt)
+
+EJECUCIÓN SEGUNDO PLANO
+
+x&y <-en concurrente
+
+Comando1&Comando2 (concurrente) si mostramos dos directorios saldrían entrelazados
+
+x;y <-secuencial de iz a de
+
+comando1;comando2
+
+x&<- segundo plano
+
+trabajara sin enseñar el proceso
+con jobs sabremos que esta lanzado en segundo plano
+bg/fg cambiar el plano del proceso
+bg-> cambia el proceso a segundo plano
+fg-> cambia proceso a primer plano
+
+
+
+
+
+

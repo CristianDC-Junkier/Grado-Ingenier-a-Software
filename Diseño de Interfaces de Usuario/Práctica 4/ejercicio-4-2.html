@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            width: 80%;
+            margin: auto;
+            background-color: beige;
+        }
+
+        h1 {
+            text-align: center;
+            color: brown;
+        }
+
+        fieldset {   
+            background-color: blanchedalmond;
+        }
+
+        label {
+            padding-right: 1em;
+            color: midnightblue;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Grado de Ingeniería Informática</h1>
+
+    <h2>Elección de optativas</h2>
+    <form>
+        <fieldset>
+            <p>
+                <label for="optativa1">Optativa 1:</label>
+                <input list="optativa" name="optativa1" id="optativa1" />
+            </p>
+            <p>
+                <label for="optativa2">Optativa 2:</label>
+                <input list="optativa" name="optativa2" id="optativa2" />
+            </p>
+            <p>
+                <label for="optativa3">Optativa 3:</label>
+                <input list="optativa" name="optativa3" id="optativa3">
+            </p>
+        </fieldset>
+
+        <datalist id="optativa">
+            <option label= "Desarrollo de Aplicaciones Web" value="606010301">
+            <option label= "Minería de Datos" value="606010307">
+            <option label= "Animación por ordenador" value="606010310">
+            <option label= "Robótica" value="606010312">
+        </datalist>
+    </form>
+</body>
+
+</html>

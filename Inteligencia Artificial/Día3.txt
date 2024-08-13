@@ -1,0 +1,62 @@
+Unión de dos conjuntos:
+
+(deffacts datos-iniciales
+	(conjunto-1 a b)
+	(conjunto-2 b c))
+
+(defrule calcula-union
+=>
+	(assert(union))) //Se introduce en la Base de hechos union vacio
+
+(defrule union-base
+	?union <- (union $?u)
+	?conjunto-1 <-(conjunto-1 $?e-1)
+	?conjunto-2 <-(conjunto-2)
+=>
+	(retract ?conjunto-1 ?conjunto-2 ?union)
+	(assert (union ?e-1 ?u))
+	(assert (escribe-solucion)))
+
+(defrule escribe-solucion
+	(escribe-solucion)
+	(union $?u)
+=>
+	(printout t "La union es " ?u crlf))
+
+
+(defrule union-con-elementos-comunes
+	(union $?)
+	?conjunto-2 <- (conjunto-2 ?e $?r-2) //coje el primero del c2
+	(conjunto-1 $? ?e $?) //lo busca en el c1 para ver si esta
+=>
+	(retract ?conjunto-2) //elimina el c2
+	(assert (conjunto-2 ?r-2)))//introduce el c2 pero sin el eliminado
+
+(defrule union-con-elementos-no-comunes //es redundante
+	?union <- (union $?u)
+	?conjunto-2 <- (conjunto-2 ?e $?r-2) //coje el primero del c2
+	(not (conjunto-1 $? ?e $?)) //lo busca en el c1 para ver si no esta 
+=>
+	(retract ?conjunto-2 ?union) //elimina el c2 y union 
+	(assert (conjunto-2 ?r-2)(union ?u ?e))) //introduce el c2 pero sin el eliminado y la union con el nuevo
+
+-------------------------------------------------------------------------------------------------------------------
+
+Union de Conjuntos otra manera mas fácil:
+
+(defrule inicio
+=>
+	(assert(union)))//arranque
+
+(defrule union
+	?h <- (union $?u)// $?u es una variable que vale lo mismo que el conjunto de datos de union
+	(conjunto ? $? ?e $?)// ?e es un numero cualquiera del conjunto y conjunto ? elige uno de los dos A o B
+	(not (union $? ?e $?)) // si el valor del conjunto no esta en union 
+=>
+	(retract ?h) //borras union
+	(assert (union ?e $?u))) // añades el numero al conjunto de valores ($?u) que estaba en union al nuevo union más el dato nuevo (?e) a la izquierda
+
+(deffacts datos-iniciales
+	(conjunto A 1 2 3 4)//no puede haber dos variables que se llamen conjunto asique uno es c.A y otro c.B
+	(conjunto B 1 3 5))
+

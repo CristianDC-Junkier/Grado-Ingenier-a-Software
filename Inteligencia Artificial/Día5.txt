@@ -1,0 +1,9 @@
+concepto de template es muy importante
+5 ejercicios+trabajo final
+
+1-encontrar elementos repetidos lista
+2-sumar los elementos de una lista
+3-intersección de dos conjuntos
+4-
+5-diferencia entre el mayor y el menor de una lista
+

@@ -1,0 +1,95 @@
+DIV
+explicación del <div> -> sirve para crear secciones o agrupar contenidos dividiendo.
+https://developer.mozilla.org/es/docs/Web/HTML/Element/div
+
+se usa como si fuera un bloque
+<div>
+<h1>
+<p>
+etc
+</div>
+
+<span> sirve para concatenar dos oraciones pudiendo poner dentro del span su propio style.
+-------------
+HIPERVINCULOS
+
+Hipervinculos (enlances):
+https://developer.mozilla.org/es/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks
+
+<a href = "dirección"> texto </a>
+la ruta puede ser a una pagina web o a otro documento de donde este
+si ponemos tittle = "lo que sea" dentro de <a (aqui)> podremos ponerle que se se muestre al pasa
+el ratón por encima
+
+tambien podemos vincular una imagen
+<a href="https://www.mozilla.org/es-ES/">
+  <img
+    src="mozilla-image.png"
+    alt="Logotipo de Mozilla que dirige a la página inicial de Mozilla"
+  />
+</a>
+------------
+FORMULARIOS
+
+<form></form>
+
+con action = "paginaweb" method post
+podemos poner lo que se ponga en el formulario en la pagina web
+
+con <ul> y <li> creamos cajas 
+dentro ponemos
+<label for="paraque">Nombre(porejemplo)</label>
+<input type="text"(por ejemplo) id="name" (por ejemplo), name="user_name"(por ejemplo)>
+con value=x podemos darle un valor por defecto
+
+con
+<button type="submit">Envíe su mensaje</button>
+hacemos botones
+
+tipos de INPUT:
+https://www.w3schools.com/html/html_form_input_types.asp
+
+number:<input type="number" id="tentacles" name="tentacles"
+       min="10" max="100">
+date:<input type="date" id="start" name="trip-start"
+       value="2018-07-22"
+       min="2018-01-01" max="2018-12-31">
+etc;
+
+---------------------
+CSS EXTERNO
+
+https://www.w3schools.com/css/css_intro.asp
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+</head>
+<body>
+<h1 class="center">Red and center-aligned heading</h1>
+<p class="center">Red and center-aligned paragraph.</p> 
+
+
+creas una clase center.
+
+estilo a mensajes
+https://developer.mozilla.org/es/docs/Learn/CSS/Styling_text/Styling_links
+
+
+
+
+
+
+
+
+
+
+
+
+
+

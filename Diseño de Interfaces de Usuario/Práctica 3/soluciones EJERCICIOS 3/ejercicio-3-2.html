@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejercicio 3.2</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            text-align: center;
+        }
+
+        fieldset {
+            background-color: beige;
+            margin: 2em auto;
+        }
+
+        legend {
+            padding-bottom: 1em;
+            color: darkred;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        #botonCrear {
+            color: darkblue;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.5em;
+            padding: 0.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Formulario de registro</h1>
+
+    <form>
+        <fieldset>
+            <legend>Datos personales</legend>
+            <p>
+                <label for="nombre">Nombre y apellidos</label>
+                <input type="text" name="nombre" id="nombre" />
+            </p>
+            <p>
+                <label for="nombre">Correo electrónico</label>
+                <input type="email" name="correo" id="correo" />
+            </p>
+            <p>
+                <label for="fechaNac">Fecha de nacimiento</label>
+                <input type="date" name="fechaNac" id="fechaNac">
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Datos de acceso</legend>
+            <p>
+                <label for="user">Nombre de usuario</label>
+                <input type="text" name="user" id="user" />
+            </p>
+
+            <p>
+                <label for="passw">Contraseña</label>
+                <input type="password" name="passw" id="passw" />
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Condiciones de registro</legend>
+            <p>
+                <label>Deseo recibir ofertas</label><br>
+                <input type="radio" name="ofertas" id="ofertas1" value="1" />
+                <label for="ofertas1">Semanalmente</label>
+                <input type="radio" name="ofertas" id="ofertas2" value="2" />
+                <label for="ofertas2">Mensualmente</label>
+                <input type="radio" name="ofertas" id="ofertas3" value="3" />
+                <label for="ofertas3">Nunca</label>
+            </p>
+            <p>
+                <input type="checkbox" name="acepto" id="acepto" />
+                <label for="acepto">Acepto el acuerdo de servicios</label>
+            </p>
+        </fieldset>
+
+        <input type="submit" value="Crear cuenta" id="botonCrear" />
+    </form>
+</body></html>

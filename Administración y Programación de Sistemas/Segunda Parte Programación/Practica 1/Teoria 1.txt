@@ -1,0 +1,19 @@
+trabajamos con c
+se podra usar eclipse, pero el examen se hara en el terminal de linux
+ficheros -> *.c
+-----------------------------
+compilar ficheros *.c -> cc *.c (con gcc tambien compila con plus)
+genera un fichero a.out => ejecutable
+con cc *.c -o *' => *' sera la salida.out
+con cc *.c -lm -o salida => l te linkea librerías siendo m la libreria Math
+con cc -c fuente1.c fuente2.c se crean dos .o (se usa el -c) se utilizaria como si fuera una libreria
+----------------------------
+-Wall => mostrar todos los warning
+----------------------------
+gedit Makefile / makefile
+make (lo que quieres crear) -> makefile
+si no ponemos ningun parametro buscara el all
+muchos objetivos el primero será all:ejecutables
+los .h se colocan en las dependecias pero no se compilan
+
+

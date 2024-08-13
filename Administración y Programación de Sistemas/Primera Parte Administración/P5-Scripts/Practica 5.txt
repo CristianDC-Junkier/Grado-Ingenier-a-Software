@@ -1,0 +1,15 @@
+1)mkdir Practica5
+2)YO=Cristian_Delgado_Cruz
+3)export YO
+4)joe saludos -> ./saludos (tuve que cambiarle los permisos con chmod)
+5)joe contador -> ./contador (")
+6)man sleep
+7)
+8)
+9)source personal
+10)
+11)
+12)
+13)
+14)
+15)

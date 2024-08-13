@@ -1,0 +1,66 @@
+Gestión de Usuarios y Grupos------
+
+Informacion de los usuarios:
+uid gid GEKOS=>Datos de contacto
+Tipos de Usuario:
+Root => Maximo privilegios
+especial
+normal
+
+Root=> Super usuario administrador
+uid = 0
+privilegios de todo el sistema
+control de administracion de cuentas de usuarios
+instalar software
+ejecutar tareas de usuario
+etc
+
+Especiales => 
+cuentas del sistema
+no tienen todos los privilegios del root
+no tienen contraseña no tienen forma de logearse
+uid 1-100
+
+Normal =>
+se usan para usuarios individuales
+cada usuario -> directorio de trabajo ubicado generalmente en /home
+cada usuario puede personalizar su entorno de trabajo
+privilegios completo sobre su entorno de trabajo
+
+Directorios etc/
+/etc/passwd
+7 campos separados por dos puntos
+/etc/shadow
+se almacenan las contraseñas
+/etc/group
+grupos a los que pertenece el usuario
+/etc/gshadow
+claves de los grupos de usuarios
+/etc/adduser.conf -> adduser, addgroup , usermod, groupmod
+chsh-> cambiar la shell del usuario
+chage-> cambiar los tipos de contraseñas y otro tipo de cosas que tienen que ver con ello
+fichero de configuracion de varias cosas que tiene que ver con el usuario
+/etc/deluser.conf
+
+con cmd-help podemos ver una ayuda de como usar todos los comandos
+
+cuotas de disco-----
+Recurso para limitar el espacio usado de los discos por usuario
+podemos medir el espacio en bloques u i-nodos
+2 cuotas de disco:
+-hard => limite de espacio imposible de superar.
+-soft => limite de espacio que se puede sobrepasar durante un tiempo de chance.
+mount => ver lo que tenemos montado (todos los servicios)
+/etc/fstab
+quotachek -> verificar las cuotas
+como usuario root:
+quotaon-> activar para un usuario/grupo las cuotas
+quotaoff-> desactivar "
+edquota => editar las cuotas 
+quota => que uso de cuota tiene ese usuario
+repquota => por cada usuario te hace un informe (globalmente)
+warnquota => revision de cuotas excedidas o en peligro de ello
+/etc/warnquota.conf => configuracion que se puede modificar
+
+
+

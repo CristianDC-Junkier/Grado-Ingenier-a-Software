@@ -1,0 +1,28 @@
+so en el buscador:
+Software => tienda de paquetes
+Software y actualizaciones => pestaña para la gestion de los paquetes
+Actualizacion de software => actualizador de software
+PPA=> Personal Package Archive
+formato de repositorio => ppa:user/ppa-name /*Repositorio es un paquete*/
+Todos los cambios deben ser recargados
+Herramientas de gestion de paquetes utilidad software => Synaptic
+
+comandos:
+apt-get ó apt {install} => gestor paquetes desde linea de comandos
+apt-cache => operaciones sobre caché
+aptitude => evolucion de apt-get/apt
+/etc/apt/sources.list => fichero de texto plano donde estan las aplicaciones
+
+sudo apt-get update => para reiniciar los cambios o recargarlos
+sudo add-apt-repository ppa:user/ppa-name para añadir repositorio
+sudo remove-apt-repository ppa:user/ppa-name para borrarlo
+se puede tambien editar y desabilitar
+
+instalacion en terminal:
+
+tarballs
+gzip => ficheros zip
+tar => tar cvzf / tar xvzf (ejemplos) (c de crea y x de extrae)
+RPM => Red Hat Package 
+sudo sh name-package.sh
+dar permisos de ejecución => .bin,.run,.sh

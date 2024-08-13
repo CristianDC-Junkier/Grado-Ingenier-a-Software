@@ -1,0 +1,19 @@
+#include <stdlib.h>
+#include <pthread.h>
+
+void * fcont(void);
+void * fnadi(int *p);
+
+int main(){
+	pthread_t h1,h2;
+	pthread_create(&h1,NULL,&fcont,NULL);
+	sleep(2)
+	pthread_join(&h1,&i)
+	printf("Valor alcanzado en el hilo 1 %i",i);
+	pthread_create(&h2,NULL,&fnadi,&x);
+return 0;
+}
+
+void * fcont(void){
+for (int i=0;i<2500000000;i++){}
+}

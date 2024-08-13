@@ -1,0 +1,30 @@
+1) echo Práctica 2 Manejo de Shell-Inicio...
+2) cd ModuloI/Practica1
+3) mkdir ../../Practica2
+4) chmod 700 ../../Practica2
+5) joe solucion2 (dentro de la carpeta)
+6) cd /home/christian.delgado970/ModuloI/Practica2
+7) find /var -type d -name  *data*
+8) find /etc -type f -mtime -100
+9) cp passwd group ../home/christian.delgado970/Practica2
+10) grep "christian.delgado970" passwd group
+11)wc -m group
+12)wc -L ./Practica2/passwd
+13)sort -r group
+14)head -n 3 passwd
+15)tail -n 3 passwd
+16)find /home/christian.delgado970 -name fichcancion (para encontrarlo) y luego ln -s /home/christian.delgado970/ModuloI/Practica1/Datos/fichcancion /home/christian.delgado970/versos
+17)grep "Cobi*" versos
+18)who -H
+19)id -g
+20)cal -m jan
+21)date +%A_%m (etc)
+22)tty
+23)top
+24)click derecho new session
+25)ps , y luego kill -s 9 <pid>
+26)mesg n
+27)write josemanuel.camacho879 pts/13
+y luego el mensaje
+28)echo "practica 2 completada"
+29)exit

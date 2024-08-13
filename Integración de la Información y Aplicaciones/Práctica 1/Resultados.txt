@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> 
+<bookstore> 
+
+  <book isbn="111111" cat="fiction" > 
+    <title lang="chn">Harry Potter</title> 
+    <price unit="us">79.99</price> 
+  </book> 
+
+  <book isbn="222222" cat="textbook"> 
+    <title lang="eng">Learning XML</title> 
+    <price unit="us">69.95</price> 
+  </book> 
+
+  <book isbn="333333" cat="textbook">
+    <title lang="eng">Intro. to Databases</title>
+    <price unit="usd">39.00</price>
+  </book>
+
+</bookstore>
+
+
+Ejercicio 1:
+1- /bookstore/book/@isbn
+2- /bookstore/book/title |  /bookstore/book/price
+3- /bookstore/book[price>35.00]/title
+4- /bookstore/book[@isbn = 111111]
+Ejercicio 2:
+1- Devuelve todos los nodos texto de todos los libros (no hay)
+2- Todos los atributos de todos los descendientes (y el mismo) de todos los libros
+3- Devuelve todos los ultimos titulos de los libros
+4- Devuelve el anterior al libro al ultimo 

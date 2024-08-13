@@ -1,0 +1,36 @@
+Tipos de Shell
+
+Shell->es la interfaz grafica que se coloca encima del interprete de comandos
+trabajamos en APSO con bash,es una de la mas completas.
+/bin/bash para entrar en una shell tipo bash
+exit para salir
+otros tipos:ksh,sh
+
+Variables
+
+inicialización: cadena=cadena
+VAR=valor
+uso de la variable: $VAR
+muestra el valor de VAR: echo $VAR
+para ver todas las variables del sistema:set
+para eliminar una variable:unset variable
+para activar atributos de la shell:
+set -/+x ó -/+v ó -/+f
+- es activar
++ es desactivar
+
+Alias
+
+ponerle un nombre corto a un comando:alias n='nombre'
+n es el comando
+
+Configuraciones
+/etc -> directorio de configuraciones generale
+~ -> directorio configuraciones personales
+.profile -> programas,funciones etc
+.bashrc -> alias,funciones,prompt de inicio
+source .bashrc -> recargar el archivo .bashrc
+----------------------------------------------------------------
+con ls -A podemos ver los archivos que empiezan por punto.
+PS1= es el prompt
+

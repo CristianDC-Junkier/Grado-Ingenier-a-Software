@@ -1,0 +1,46 @@
+1) Echo Practica 1: Manejo de Shell – Inicio...
+2) pwd
+3)ls -l
+4)mkdir ModuloI
+5)pwd -> /home/christian.delgado970/ModuloI, mkdir /home/christian.delgado970/ModuloI/Practica1
+6)cd ModuloI/Practica1
+7) mkdir Datos, mkdir /home/christian.delgado970/ModuloI/Practica1/Datos/Temporal,
+mkdir /home/christian.delgado970/ModuloI/Practica1/Datos/basura
+8) ls -l /home/christian.delgado970
+9)ls -l /christian.delgado970
+10)
+11) cd 
+
+12) mv . /Practica1/soneto . /Practica1/Temporal/estrofa 
+13)
+14)
+15)
+
+16) cp /home/so/ficheros/f* ./
+17) 	a)ls  -l *[0-9]
+	b)ls -l [!AaEeIiOoUu]*
+	c)ls -l [!0123456789]*
+	d)ls -l ???
+	e)ls -l ????*
+	f)
+18)rm ./??
+19)cp ./*[0-9] ./Temporal
+20)more ./fichcancion
+21)ls -1lRS
+22)man rm  -r Borra recursivamente árboles de directorio.
+23)rm -r Temporal
+24)mkdir tmpfiles
+25)joe file1.txt (control +kh=ayuda)
+26)cat >file2.txt (control+d=salir)
+27)cat file1.txt file2.txt
+28)joe file1.txt
+29)man file.xt
+30)joe file-text.txt
+31)ls -l *-*
+32)cd ~
+33)rm /home/christian.delgado970/ModuloI/Practica1/Datos/tmpfiles/file2.txt
+34)rm -r tmpfiles
+35)clear
+36) echo Práctica 1: Manejo de Shell...Finalizada
+37)exit
+

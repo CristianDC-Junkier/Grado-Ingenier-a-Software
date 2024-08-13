@@ -1,0 +1,79 @@
+!create Camion1 : Camion
+!set Camion1.Medidas := 'Ejemplo'
+!set Camion1.NumRuedas := 8
+!set Camion1.idVehiculo := 1
+!set Camion1.Capacidad := 200
+!set Camion1.Cantidad := 20
+!set Camion1.Matricula := 'Ejemplo1'
+!set Camion1.Tipo := #Camion
+!set Camion1.TipoProductoTransporta := #Carne
+!set Camion1.idProducto := 1
+
+!create Furgo1 : Furgoneta
+!set Furgo1.NumPuertas := 3
+!set Furgo1.idVehiculo := 2
+!set Furgo1.Capacidad := 200
+!set Furgo1.Cantidad := 20
+!set Furgo1.Matricula := 'Ejemplo2'
+!set Furgo1.Tipo := #Furgoneta
+!set Furgo1.TipoProductoTransporta := #Carne
+!set Furgo1.idProducto := 2
+
+!create Turismo1 : Turismo
+!set Turismo1.NumPuertas := 3
+!set Turismo1.TaraMaxima := 100
+!set Turismo1.idVehiculo := 3
+!set Turismo1.Capacidad := 200
+!set Turismo1.Cantidad := 20
+!set Turismo1.Matricula := 'Ejemplo3'
+!set Turismo1.Tipo := #Turismo
+!set Turismo1.TipoProductoTransporta := #Carne
+!set Turismo1.idProducto := 1
+
+!create Prov1 : Proveedor
+!set Prov1.idProveedor := 1
+!set Prov1.Nombre := 'Ejemplo'
+!set Prov1.Telefono := 923454580
+
+!create Nav1: Nave
+!set Nav1.idNave := 1
+!set Nav1.Direccion := 'x'
+!set Nav1.Telefono := 921345977
+!set Nav1.Capacidad := 1000
+!set Nav1.CalidadTotal := #Buena
+!set Nav1.Productos := #Carne
+
+!create Prod1: Producto
+!set Prod1.idProducto := 1
+!set Prod1.Nombre := 'Carne de Pollo'
+!set Prod1.Tipo := #Carne
+!set Prod1.Stock := 100
+!set Prod1.PrecioBase := 27
+!set Prod1.Calidad := #Buena
+
+!create Linea1: LineadeCompra
+!set Linea1.idLinea := 1
+!set Linea1.Tipo := #Carne
+!set Linea1.Cantidad := 5
+
+!create Compra1 : Compra
+!set Compra1.idVenta := 1
+!set Compra1.Cantidad := 10
+!set Compra1.TipoProductoCompra := #Carne
+!set Compra1.PrecioTotal := 12
+!set Compra1.FechaCompra := 'Ejemplo'
+
+!create Comprador1 : Comprador
+!set Comprador1.idComprador := 1  
+!set Comprador1.Nombre := 'Ejemplo'
+!set Comprador1.Telefono := 663567456
+!set Comprador1.TipoCompra := #Minorista
+
+!insert (Camion1,Prov1) into Transporta
+!insert (Furgo1,Prov1) into Transporta
+!insert (Turismo1,Prov1) into Transporta
+!insert (Nav1,Prov1) into Utiliza
+!insert (Nav1,Prod1) into Existe
+!insert (Prod1,Linea1) into Contiene
+!insert (Compra1,Linea1) into CompraLinea
+!insert (Comprador1,Compra1) into Realiza

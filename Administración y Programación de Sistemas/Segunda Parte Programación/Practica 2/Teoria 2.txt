@@ -1,0 +1,44 @@
+Hilos -> threads => permiten la concurrencia (a la vez)
+Libreria de hilos -> pthread
+struct pthread_t => estructura para almacenar hilos
+----------------------------------------
+instruccion para crear hilos
+	pthread_t h1;
+	void *f1(void *p);
+	pthread_create(
+	               pthread_t *thread(&h1),
+		       pthread_attr_t *attr, /*Siempre habra en la practica NULL, no usamos el parametro */
+		       void * (*routine)(void *)(&f1), /*funcion que haga el hilo*/ 
+		       void *arg)(&parametro)/*Pasarle valores a la funcion que haga el hilo*/
+si devuelve 0 el hilo se ha creado si no es cero hubo algún error.
+
+compilación de hilos
+
+#include <pthread.h>
+	-lpthread /*Para lincar la la libreria*/
+
+con man 3 comando
+sabremos la libreria del comando que estamos buscando
+
+si la funcion f1 tiene un parametro que no er void hay que transformarlo a void
+con un cast (void *)f1 dentro el parametro
+(solo si no es void * f1(void*p))
+
+---------------------------------------------
+Manipulacion
+pthread_join => hace que puedas parar el programa en su estado hasta que un hilo termine
+se necesitaran hacer suficientes join como hilos se hayan creado
+
+pthread_join(
+	pthread_t th,/*el hilo*/
+	void **thread_return)/*el valor que el hilo devuelve al proceso padre*/
+si devuelve 0 el join se ha creado si no es cero hubo algún error.
+
+
+pthread_detach=> hace que el hilo sea independiente al proceso
+pthread_detach
+si devuelve 0 el join se ha creado si no es cero hubo algún error
+
+pthread_exit(
+	void *retval)/*valor que devolvemos al padre*/
+es como un return

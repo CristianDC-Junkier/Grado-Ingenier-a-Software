@@ -1,0 +1,254 @@
+Ej 1
+
+SELECT lla.TF_ORIGEN,to_char( sum(lla.DURACION/60*ta.coste),'99999.99') as importe
+from mf.telefono te inner join mf.tarifa ta using(tarifa,compañia) inner join
+mf.llamada lla on lla.TF_ORIGEN=te.NUMERO
+where extract(year from lla.fecha_hora) = 2006
+group by lla.tf_origen
+
+
+------------------------  call dbms_output.put_line(facturacion('654123321', 2006)); /*Para que salga por pantalla */
+sin exceptions
+
+set serveroutput on;/*para que pueda salir por pantalla*/
+create or replace
+function facturacion (p_telefono mf.llamada.tf_origen%type,p_año integer)
+return float is  
+  importe number(7,2);
+begin
+  SELECT sum(lla.DURACION/60*ta.coste) into importe
+  from mf.telefono te inner join mf.tarifa ta using(tarifa,compañia) inner join
+  mf.llamada lla on lla.TF_ORIGEN=te.NUMERO
+  where extract(year from lla.fecha_hora) = p_año and 
+  lla.tf_origen=p_telefono
+  group by lla.tf_origen;
+  return importe;
+end;
+
+---------------------------------------
+set serveroutput on;
+create or replace
+function facturacion (p_telefono mf.llamada.tf_origen%type,p_año integer)
+return float is  
+  importe number(7,2);
+  factura_baja exception;
+begin
+  SELECT sum(lla.DURACION/60*ta.coste) into importe
+  from mf.telefono te inner join mf.tarifa ta using(tarifa,compañia) inner join
+  mf.llamada lla on lla.TF_ORIGEN=te.NUMERO
+  where extract(year from lla.fecha_hora) = p_año and 
+  lla.tf_origen=p_telefono
+  group by lla.tf_origen;
+  if importe < 1 then 
+    raise factura_baja;
+  end if;
+  return importe;
+exception 
+  when factura_baja then
+    DBMS_OUTPUT.PUT_LINE('Facturación por debajo del Euro');
+  return -1;
+  when NO_DATA_FOUND then
+    DBMS_OUTPUT.PUT_LINE('No se han encontrado Datos para ese Telefono');
+  return -1;
+  when others then
+   DBMS_OUTPUT.PUT_LINE('Ha ocurrido un error inesperado'); /*Por si ocurre cualquier error*/
+  return -1;
+end;
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ej 2
+
+SELECT distinct lla.TF_ORIGEN
+from mf.llamada lla
+where extract(year from lla.fecha_hora) = 2006;
+
+----------------------------------------------------------------------------  execute llamadaFacturacion(2006); /*Para que salga por pantalla */
+
+CREATE OR REPLACE PROCEDURE LlamadaFacturacion(
+    p_año INTEGER)
+IS
+  CURSOR c_telefonos (p_año INTEGER)
+  IS
+    SELECT DISTINCT lla.TF_ORIGEN
+    FROM mf.llamada lla
+    WHERE extract(YEAR FROM lla.fecha_hora)=p_año;
+  cont           NUMBER(3);
+  NoHayTelefonos EXCEPTION;
+BEGIN
+  cont:=0;
+  dbms_output.put_line('Nº Telefono     Importe(en €)');
+  dbms_output.put_line('------------------------------------------');
+  FOR r_telefono IN c_telefonos(p_año)
+  LOOP
+    cont:=cont+1;
+    dbms_output.put_line(r_telefono.tf_origen||'        '||facturacion(r_telefono.tf_origen,p_año));
+  END LOOP;
+  IF cont=0 THEN
+    raise NoHayTelefonos;
+  END IF;
+EXCEPTION
+WHEN NoHayTelefonos THEN
+  dbms_output.put_line('No hay Telefonos ese año');
+WHEN OTHERS THEN
+  dbms_output.put_line('Ha ocurrido un error');
+END;
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Dia 2
+ej 1 (A)
+
+CREATE OR REPLACE PROCEDURE llamadas_cia(
+    cia mf.compañia.nombre%type,
+    fecha DATE)
+IS
+  numerototal INT;
+  igualcero   EXCEPTION;
+  numtotal int;
+  numllamadas int;
+  numllamadas100 int;
+  porcentaje number(5,2);
+  
+  Cursor c_llamada(p_tel mf.llamada.tf_origen%type)
+  is
+  SELECT ll.TF_DESTINO,ll.duracion
+  FROM mf.llamada ll
+  where to_char(ll.fecha_hora, 'dd/mm/yyyy')= fecha and ll.tf_origen = p_tel;
+  
+  CURSOR c_compañiatelefono
+  IS
+    SELECT te.NUMERO
+    FROM mf.telefono te
+    INNER JOIN mf.compañia co
+    ON te.compañia =co.cif
+    WHERE co.nombre=cia;
+    
+BEGIN
+  SELECT COUNT(*)
+  INTO numerototal
+  FROM mf.llamada ll
+  WHERE TO_CHAR(ll.fecha_hora,'dd/mm/yyyy')= fecha;
+  IF numerototal                           = 0 THEN
+    raise igualcero;
+  END IF;
+  dbms_output.put_line('Llamadas realizadas por los teléfonos de la Compañía "'||cia ||'"');
+  dbms_output.put_line('------------------------------------------------------------');
+  dbms_output.put_line('Tlf. Origen  Num_LL  Num_100   %');
+  dbms_output.put_line('------------------------------------------------------------');
+  numtotal:=0;
+  FOR r_telefono IN c_compañiatelefono
+  LOOP
+      numllamadas:=0;
+      numllamadas100:=0;
+      for r_llamadas in c_llamada(r_telefono.numero)
+        loop
+        numtotal:=numtotal+1;
+        numllamadas:=numllamadas+1;
+        if r_llamadas.duracion > 100 then
+        numllamadas100:=numllamadas100+1;
+        end if;
+        end loop;
+    porcentaje:=0;
+    if numllamadas100<>0 then
+      porcentaje:= numllamadas100*100/numtotal;
+    end if;
+    dbms_output.put_line(r_telefono.numero || '       '|| numllamadas  || '        ' || numllamadas100 || '    ' || porcentaje || '%');
+  END LOOP;
+  dbms_output.put_line('------------------------------------------------------------');
+  dbms_output.put_line('Numero Llamadas Realizadas: '||numtotal);
+EXCEPTION
+WHEN igualcero THEN
+  dbms_output.put_line('No hay llamadas en la fecha: '|| fecha ||' en la BD');
+WHEN OTHERS THEN
+  dbms_output.put_line('Ha ocurrido un error inesperado');
+END;
+
+//Ejemplo de ejecucion
+execute llamadas_cia('Kietostar', '16/10/06');
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ej 2
+
+create or replace 
+trigger nueva_llamada before insert on llamada
+for each row
+declare
+  v_llamadas_orig integer;
+  v_llamadas_destino integer;
+begin
+  SELECT count(*) into v_llamadas_orig
+  from llamada
+  where (tf_origen=:new.tf_origen and fecha_hora=:new.fecha_hora) or
+        (tf_destino=:new.tf_origen and fecha_hora=:new.fecha_hora);
+  if v_llamadas_orig>0 then
+    RAISE_APPLICATION_ERROR(-20001, 'El telefono origen esta realizando o recibiendo una llamada a esa hora.');
+  end if;
+  SELECT count(*) into v_llamadas_destino
+  from llamada
+  where (tf_origen=:new.tf_destino and fecha_hora=:new.fecha_hora) or
+        (tf_destino=:new.tf_destino and fecha_hora=:new.fecha_hora);
+  if v_llamadas_destino>0 then
+    RAISE_APPLICATION_ERROR(-20002, 'El telefono destino esta realizando o recibiendo una llamada a esa hora.');
+  end if;
+end;
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Examen 2021
+CREATE OR REPLACE PROCEDURE prueba2BD4(
+    nombre_de_tarifa    VARCHAR2,
+    nombre_de_provincia VARCHAR2,
+    anio                INTEGER)
+IS
+  tarifacont    INTEGER;
+  provinciacont INTEGER;
+  noexistenada  EXCEPTION;
+  cont          INTEGER;
+  CURSOR t_clientes
+  IS
+    SELECT cl.nombre,
+      te.numero
+    FROM mf.cliente cl
+    INNER JOIN mf.telefono te
+    ON cl.dni      =te.cliente
+    WHERE te.TARIFA=nombre_de_tarifa;
+    /*Falta un cursor*/
+  CURSOR p_clientes
+  IS
+    SELECT cl.nombre,
+      te.numero,
+      cl.provincia,
+      ta.descripcion
+    FROM mf.cliente cl
+    INNER JOIN mf.telefono te
+    ON te.cliente=cl.DNI
+    INNER JOIN mf.tarifa USING(tarifa,compañia)
+    WHERE cl.provincia=nombre_de_provincia;
+  CURSOR p_llamadas(numtel mf.telefono.numero%type)
+  IS
+    SELECT DISTINCT ll.tf_origen
+    FROM mf.llamada ll
+    WHERE extract(YEAR FROM ll.fecha_hora)=anio
+    AND ll.tf_destino                        =numtel);
+  BEGIN
+    SELECT COUNT(*)
+    INTO tarifacont
+    FROM MF.TARIFA ta
+    WHERE ta.tarifa=nombre_de_tarifa;
+  IF tarifacont    =0 THEN
+    SELECT COUNT(*)
+    INTO provinciacont
+    FROM MF.Cliente cl
+    WHERE cl.provincia=nombre_de_provincia;
+    IF provinciacont  =0 THEN
+      raise noexistenada;
+    ELSE
+      /*falta*/
+    END IF;
+  ELSE
+    /*falta*/
+  END IF;
+EXCEPTION
+WHEN noexistenada THEN
+  dbms_output.put_line('No hay tarifa llamada ' || nombre_de_tarifa || ', ni tampoco provincia cuyo nombre sea ' || nombre_de_provincia);
+WHEN OTHERS THEN
+  dbms_output.put_line('Ha ocurrido un error');
+END;

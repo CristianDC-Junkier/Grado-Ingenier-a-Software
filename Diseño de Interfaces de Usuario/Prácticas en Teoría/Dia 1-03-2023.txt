@@ -1,0 +1,15 @@
+https://developer.mozilla.org/es/docs/Learn/CSS/Building_blocks/Values_and_units
+
+tamaños de letra (em)
+margenes (margen)
+etc
+
+tamaños minimo y maximo de las ventanas:
+https://developer.mozilla.org/es/docs/Learn/CSS/Building_blocks/Values_and_units
+
+.x{
+
+}
+clases
+
+si <p="x","y"> cogera las dos clases.

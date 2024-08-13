@@ -1,0 +1,20 @@
+Tuberías
+----------------------------
+Almacenamiento temporal sin nombre
+
+int pipe (int tuberia1[2])=>
+int tub[2];
+int pipe (tub);
+el nombre de la tubería sería tuberia1 (el array)
+el primer valor de la array será para leer, y para escribir el segundo.
+es decir [0] leer [1] escribir
+se almacena en la tabla de canales, en el primer lugar libre de la misma.
+la lectura en un sitio y la escritura en otro
+para comunicarse usamos:
+read(tuberia[0]) y write(tuberia[1])
+dup => duplica una posición de la tabla de canales
+para que un hijo lea por una tubería lo que le manda el padre necesitamos primero cerrar
+una de las 3 posiciones primeras, que si le llegarán al hijo para ello
+cerraremos por ejemplo la 1 con close (1) en el padre y luego hacemos un 
+int dup (int pos) siendo pos la posicion que queremos duplicar
+por ejemplo dup(tuberia1[0]), que duplicará en este caso en la 1

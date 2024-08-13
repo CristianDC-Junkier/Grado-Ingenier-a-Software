@@ -1,0 +1,51 @@
+? -> don't care (un unico item) (algo)
+?X -> declaracion variable un valor (algo o nada)
+$? -> don't care (multiples items)
+$?x -> declaracion variable multiples valores
+
+clear
+reset
+run
+
+(defrule take-a-walk
+(status walking) ;concatenacion de varios hechos en los antecedentes de las reglas
+(walk-sign walk)
+=>
+(printout t "Go" crlf))
+
+estratregia de prioridades
+todas las estrategias:
+depth, breadth, LEX, MEA,
+complexity, simplicity, and random.
+depth -> usa las reglas de abajo arriba (es por defecto)(lifo)
+breadth -> usa las reglas de arriba a abajo(fifo)
+complexity -> primero las reglas mas complicadas
+simplicity al reves de complexity
+
+nosotros solo usaremos DEPTH.
+
+Declaración 
+
+CLIPS>
+(deffacts walk "Some facts about walking"
+(status walking)
+(walk-sign walk))
+CLIPS> (reset) ;cargar los hechos en la base de datos
+
+entonces 
+
+CLIPS> (facts)
+f-1 (status walking)
+f-2 (walk-sign walk)
+For a total of 2 facts.
+
+pag 41 y pag 43 , 44 ejemplos de variables tal que: ?x
+
+?duck <- (bachelor Dopey) ;puntero
+
+pag 45 -> uso del ?
+pag 46 -> uso del $?
+pag 47 -> uso del $?x
+
+deftemplate pag 54 
+?variable/$?variable para poder guardarlo necesariamente

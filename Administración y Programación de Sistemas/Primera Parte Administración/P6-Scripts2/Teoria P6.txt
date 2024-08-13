@@ -1,0 +1,130 @@
+expr <expr> => muestra/guarda el resultado de la cuenta dentro de <expr>
+
+var1=$(expr 5 + 5) => sustituye el comando expr que es la cuenta 5 + 5 para colocarlo dentro de la variable
+además de que expr 5 + 5 debe estar siempre con esos huecos
+
+test exprresion [ expresión ] => convierte la expresión en un verdadero o falso 
+tambien hay que dejar los huecos como en expr 5 + 5 delante y detras del corchete
+hay varias -x que pueden ser utilizadas
+
+cualquier_cosa; => indica que lo siguiente al ; esta a principio de linea es decir como si hubieras dado al enter
+en resumen es un retorno de carro
+
+if else=>
+
+if [ expr ]
+then
+      ...
+elif [ expr ];then
+      ...
+else
+      ...
+fi
+(el then y el fi debe estar al comienzo de su linea podria ser -> if [ expr ];then)
+
+ejemplo
+if [ -d /home/so ]
+elif test -f /home/so
+
+test equivale a [ ]
+[ 5 != 10 ] && echo "Yes" || echo "No" => si 5 no es igual a 10 entonces "Yes" si no "No"
+
+case =>
+
+case <expresion> in
+opc1)
+	...;;
+opc2)   
+	...;;
+*)	
+	...;;
+esac
+ *) es un default y ;; es el break
+podrias poner como opcx)=> a|b|c) 
+expresion => $Opcion (variable llamada opcion) que puedes añadirle algo por teclado con read Opcion
+opcion) => per[ao]) entraria con pera y pero
+opcion) => per*) entraria con pera pero perone etc
+
+----------------------------------------------------
+FOR=>
+
+for variable in conjunto
+do
+	comandos
+done
+
+ejemplos
+
+for i in 8 10 2 5 pepe
+do
+	echo"Esta es la iteraccion para $i"
+done
+
+saldria por pantalla => 8 10 2 5 pepe
+
+for i in $(find / -name "e*")
+do
+	echo "El fichero $i comienza por e"
+done
+
+for ((i=1; i<10; i++))
+do
+	echo "Esta es la interaccion para $i"
+done
+saca del 1 al 9
+
+for i in {1..10}
+do
+	echo "Esta es la interaccion para $i"
+done
+del 1 al 10
+
+for i in {1..10..2}
+do
+	echo "Esta es la interaccion para $i"
+done
+va sumando de 2 en 2 de 1 a 10: 1 3 5 7 9
+--------------------------------
+while condicion
+do
+	comandos
+done
+
+ejemplo
+NUM=1
+while [ $NUM -le 5 ]
+do
+	echo "NUM vale $NUM"
+	NUM=$(($NUM + 1)) // NUM=$(expr $NUM + 1)
+done
+--------------------------------
+UNTIL
+
+UNTIL condicion
+do
+	comandos
+done
+
+NUM=1
+until [ $NUM -gt 5 ]
+do
+	echo "NUM vale $NUM"
+	NUM=$(($NUM + 1)) // NUM=$(expr $NUM + 1)
+done
+-------------------------
+BREAK Y CONTINUE
+
+do
+	...
+	break
+	...
+done
+
+break salta fuera de la interacion
+
+do
+	...
+	continue
+	...
+done
+continue salta al principio del bucle

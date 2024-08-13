@@ -1,0 +1,277 @@
+SELECT * FROM EI.ASIGNATURA; //ver todos los atributos de la tabla Asignatura
+
+SELECT IDASIG,NOMBRE,ESP 
+FROM EI.ASIGNATURA 
+WHERE curso=3 AND créditos>4.5;
+
+SELECT IDASIG as iDAsignatura, NOMBRE, ESP as Especialidad //El as cambia el nombre del resultado
+FROM EI.ASIGNATURA 
+WHERE curso=3 AND créditos>4.5;
+
+SELECT IDASIG as iDAsignatura, NOMBRE, ESP as Especialidad //la a puede ser un nombre que se queda guardado como un alias
+FROM EI.ASIGNATURA a
+WHERE curso=3 AND créditos>4.5;
+
+SELECT * FROM EI.PROFESOR //ver todos los atributos de la tabla Profesor
+
+select distinct curso // Distinct evita que se repita tuplas
+from ei.asignatura
+
+select distinct idord
+from ei.ordenador
+
+SELECT * 
+FROM EI.ORDENADOR	//Para ordenar por un atributo, DESC despues ordena al reves.
+order by tipo
+
+SELECT nombre,nh as NumeroHermanos,nh*300 as Descuento // una cuenta
+FROM EI.ALUMNO
+ORDER BY Descuento DESC, nombre;			// en caso de ser igual ordena por nombre
+
+SELECT dni,nombre				//Elegir entre 2 conjuntos con between y in para grupos de opciones
+FROM EI.ALUMNO
+WHERE FECHANAC between '1/1/70' AND '31/12/74' 
+      AND LUGAR IN ('Huelva','Cádiz')
+
+SELECT nombre					//Like 'M%' solo compara la primera, Like '_' que tenga el mismo numero de char
+FROM EI.ALUMNO
+WHERE (nombre LIKE 'M%') AND 
+    (Lugar NOT LIKE 'P%' AND Lugar LIKE '______')
+
+SELECT EXTRACT(YEAR FROM FECHANAC) as AÑO // para EXTRAER el año de nacimiento
+FROM EI.ALUMNO
+
+//EJERCICIOS TABLA 1
+SELECT nombre
+FROM MF."COMPAÑIA"
+WHERE WEB LIKE '%et%' AND WEB like '%com';
+
+SELECT nombre,direccion
+FROM MF.CLIENTE
+WHERE F_NAC between '1/1/73' AND '31/12/85' 
+      AND CP LIKE '15%'
+      Order By nombre,  direccion DESC
+------------------------------------------------- Dia 2
+select nombre,direccion from mf.cliente
+where (extract (year from f_nac)= '1973' or 
+extract (year from f_nac)= '1985') and
+cp like '15%'
+order by nombre, direccion desc;
+
+describe MF.LLAMADA //te dice los tipos de la tabla llamada
+
+select tf_origen
+from mf.llamada
+where tf_destino= '666010101' and
+      extract (hour from fecha_hora)>=10 and 
+      extract (hour from fecha_hora)<=12;
+
+----------------------------------------------------------
+//Para sacar informacion de dos tablas utilizaremos su relacion entre tablas por la 
+//clave ajena y no por el producto.
+select a.nombre as asignatura, p.nombre as profesor
+from ei.asignatura a, ei.profesor p
+where a.prof=p.npr
+//NO SE PUEDE HACER
+(EI 8)
+select a.nombre as asignatura, p.nombre as profesor
+from ei.asignatura a inner join ei.profesor p on a.prof=p.npr //inner join une profesor y asignatura por la clave ajena.
+//ESTE SI.
+select al.NOMBRE
+from (ei.matricula m inner join ei.asignatura a using (idasig)) Inner join ei.alumno al on al.NAL=m.ALUM
+where  a.nombre='Bases de Datos I' and //ei10
+m.año='2002' and m.FEB_JUN>=5;
+
+select distinct despacho
+from ei.profesor p1 inner join ei.profesor p2 using (despacho) //Ei11
+where p1.nombre <> p2.nombre
+
+select a.nombre //Ei12
+from ei.asignatura a inner join ei.profesor p on a.prof=p.npr
+where p.nombre='Dolores Toscano Barriga'
+union
+select a.nombre
+from ei.asignatura a inner join ei.matricula m using (idasig)
+inner join ei.profesor p on m.prof=p.npr
+where p.nombre='Dolores Toscano Barriga';
+
+select a.nombre//ei 13
+from (ei.alumno a inner join ei.matricula m on a.nal=m.alum)
+inner join ei.asignatura asig using (idasig)
+where m.año='2002' and asig.nombre='Bases de Datos I' and 
+      m.dic is null and (m.feb_jun>=5 or m.sep>=5);
+      
+//DE EXAMEN
+//MF 5
+select ta.tarifa,ta.COSTE,ta.COMPAÑIA
+from mf.tarifa ta inner join mf.compañia co on ta.compañia=co.cif
+where ta.DESCRIPCION like '%compañía';
+
+//MF 6
+select cl.nombre as cliente , tf.numero
+from ( mf.telefono tf inner join  mf.tarifa ta using (tarifa))
+inner join mf.cliente cl on tf.CLIENTE=cl.DNI
+where ta.coste < 0.20 and  tf.TIPO  = 'C' ;
+//MF 9
+Select
+from(((mf.cliente co inner join mf.telefono tfo on co.dni=tfo.cliente)
+	inner join mf.llamada ll on tfo.numero=ll.tf_origen)
+	inner join mf.telefono tfd on ll.tf_destino=tfd.numero)
+	inner join mf cliente cd on co.dni=tfo.cliente
+where
+
+
+//CONSULTAS ANIDADAS 16711/2021
+
+//ej 14
+select nombre
+from ei.alumno
+where lugar=(select lugar 
+		from ei.alumno
+		where nombre='Samuel Toscano Villegas')
+and nh=(select nh
+	  from ei.alumno
+	  where nombre='Beatriz Rico Vázquez')
+//ej 15
+select nombre
+from ei.alumno
+where nal in (select mat.alum
+              from ei.matricula mat inner join ei.asignatura asi using (idasig)
+              where asi.NOMBRE='Bases de Datos II')
+ and nal not in (select mat.alum
+                from ei.matricula mat inner join ei.asignatura asi using (idasig)
+                where asi.NOMBRE='Bases de Datos I')
+
+//ej 16
+select nombre
+from EI.PROFESOR
+where DESPACHO <> 'FC-7366'
+    and ANT < Any (select ant
+                  from ei.profesor
+                  where DESPACHO='FC-7366')
+
+//ej 17
+select al.nombre
+from (EI.MATRICULA mat inner join EI.ASIGNATURA asi using(idasig))
+      inner join EI.ALUMNO al on al.NAL = mat.ALUM
+where asi.nombre='Bases de Datos I' and mat.año=2002
+      and sep >all(select feb_jun
+                  from EI.MATRICULA mat inner join EI.ASIGNATURA asi using (idasig)
+                  where asi.nombre='Bases de Datos I' and mat.año=2002
+                  and feb_jun is not null)
+
+//MF 10
+select to_char (fecha_hora,'dd,mm,yyyy') Fecha
+from MF.LLAMADA
+where DURACION >= All(select Duracion
+                      from MF.LLAMADA)
+
+//MF 11
+select cli.nombre as abonados
+from (mf.cliente cli inner join mf.telefono tel on cli.dni=tel.cliente) 
+      inner join mf.compañia co on tel.compañia=co.cif
+where co.nombre='Aotra' and 
+      tel.TARIFA = (select tarifa
+                    from mf.telefono
+                    where mf.telefono.numero='654123321')
+//MF 14
+select c.nombre,tf.numero
+from mf.cliente c inner join mf.telefono tf on c.dni=tf.cliente
+where tf.numero in (select ll.tf_origen
+                    from mf.llamada ll inner join mf.telefono t on ll.tf_destino=t.numero 
+                    inner join mf.compañia comp on comp.cif=t.compañia
+                    where comp.nombre='Petafón')
+  and tf.numero not in (select ll.tf_origen
+                    from mf.llamada ll inner join mf.telefono t on ll.tf_destino=t.numero 
+                    inner join mf.compañia comp on comp.cif=t.compañia
+                    where comp.nombre='Aotra')
+//MF 15
+select cl.nombre
+from ((mf.cliente cl inner join mf.telefono t on cl.dni=t.cliente )
+inner join mf.compañia comp on comp.cif=t.compañia)
+inner join mf.llamada ll on t.numero=ll.tf_origen
+where comp.nombre ='Kietostar' and to_char(ll.fecha_hora,'mm/yyyy')='09/2006'
+      and ll.duracion >= All(select ll.duracion 
+                             from ((mf.cliente cl inner join mf.telefono t on cl.dni=t.cliente )
+                              inner join mf.compañia comp on comp.cif=t.compañia)
+                              inner join mf.llamada ll on t.numero=ll.tf_origen
+                              where comp.nombre ='Kietostar' and to_char(ll.fecha_hora,'mm/yyyy')='09/2006')
+------------------------------------------------------------------------------------------------------------
+//ej 18
+select distinct p.despacho //distinct es para que no haya repetidos
+from ei.profesor p 
+where not exists(select *            //EXIST y NO EXIST es para saber si dos tablas estan correlacionadas.
+                from ei.asignatura a
+                where p.npr=a.prof)
+//ej 19
+select a.nombre 
+from ei.alumno a
+where exists (select *
+		from ei.matricula m
+		where (m.año=2000 or m.año=2002) and a.nal=m.alum)
+	and not exists (select *
+		       from ei.matricula m
+		       where m.año=2001 and a.nal=m.alum);
+//ej 20
+//SIN EXIST
+select p1.nombre, p1.despacho
+from ei.profesor p1
+where p1.despacho not in (select p2.despacho
+                         from ei.profesor p2	//que no sean el mismo (not in) 
+                         where p1.npr<>p2.npr); //compara los profesores para saber si es el mismo
+//CON EXIST
+select p1.nombre, p1.despacho
+from ei.profesor p1
+where not exists (select *
+                         from ei.profesor p2
+                         where p1.npr<>p2.npr
+                         and p1.despacho=p2.despacho);
+//MF 17
+select cl.nombre
+from mf.cliente cl inner join mf.telefono tf on cl.dni=tf.cliente
+where exists (select *
+              from mf.llamada ll
+              where to_char(ll.fecha_hora,'dd/mm/yy')='16/10/06' and
+              ll.tf_origen=tf.numero);
+//MF 18
+select cl.nombre
+from mf.cliente cl inner join mf.telefono tf on cl.dni=tf.cliente
+where exists (select *
+              from mf.llamada ll
+              where ll.duracion<90 and
+              ll.tf_origen=tf.numero);
+//MF21
+select cl.nombre , tf.numero
+from (mf.cliente cl inner join mf.telefono tf on cl.dni=tf.cliente) inner join mf.compañia co on tf.COMPAÑIA=co.cif
+where co.nombre='Kietostar' and
+      not exists (select *
+              from (mf.llamada ll inner join mf.telefono tf2 on ll.tf_destino=tf2.numero)inner join mf.compañia co2 on tf2.compañia=co2.cif
+where co2.nombre='Kietostar' and tf.numero=ll.tf_origen );
+//EJ21
+select p.nombre, a.nombre
+from ei.profesor p left outer join ei.asignatura a on p.npr=a.prof; //no suele caer, en vez de inner join es outer join
+
+//EJ22
+select count (distinct p.despacho)
+from ei.profesor p;
+
+//Ej23
+select count(*) as total_matricula, max(m.sep) as maxima_nota, min(m.sep) as minima_nota, avg(m.sep) as nota_media
+from ei.matricula m inner join ei.asignatura a using(idasig)
+where a.nombre='Bases de Datos I' and m.año=2002; //si pones "and sep is not null" elimina las que sean null
+//EJ 24
+select a.nombre
+from ei.asignatura a
+where (select count(*)
+      from ei.recomendaciones r
+      where a.idasig=r.idasig1)>=2;
+//EJ 25
+select p1.nombre
+from ei.profesor p1
+where (select count(*)
+      from ei.profesor p2
+      where p1.ant<p2.ant)>=5;//el que sea menor hace que no pueda compararse con uno mismo
+//EJ 26
+select a.nombre,m.año, count (m.feb_jun), avg(feb_jun)
+from ei.asignatura a inner join ei.matricula m using (idasig)
+group by a.nombre,m.año;

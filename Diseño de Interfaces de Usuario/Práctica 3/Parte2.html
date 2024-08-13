@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejercicio 3.2</title>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            text-align: center;
+        }
+
+        fieldset {
+            background-color: beige;
+            margin: 2em auto;
+        }
+
+        legend {
+            padding-bottom: 1em;
+            color: darkred;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        #botonCrear {
+            color: darkblue;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.5em;
+            padding: 0.5em;
+        }
+
+    </style>
+</head>
+
+<body>
+    <form>
+        <h1>Formularios de registro</h1>
+        <fieldset>
+            <legend>DATOS PERSONALES</legend>
+            <p>
+                <label for="name">Nombre y apellidos:</label>
+                <input type="text" id="name" name="user_name">
+            </p>
+            <p>
+                <label for="mail">Correo electrónico:</label>
+                <input type="email" id="mail" name="user_mail">
+            </p>
+            <p>
+                <label for="fnac">Fecha de nacimiento:</label>
+                <input type="date" id="fnac" max="2023-03-01" name="user_message">
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>DATOS DE ACCESO</legend>
+            <p>
+                <label for="nick">Nombre de usuario:</label>
+                <input type="text" id="name" name="user_nick">
+            </p>
+            <p>
+                <label for="pswd">Contraseña:</label>
+                <input type="password" id="pswd" name="user_pswd">
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>CONDICIONES DE REGISTRO</legend>
+            <p>
+                <label for="ofertas">Deseo recibir ofertas</label><br>
+                <input type="radio" id="title_1" name="title" value="D">
+                <label for="dia">Diariamente</label>
+                <input type="radio" id="title_2" name="title" value="S">
+                <label for="sem">Semanalmente</label>
+                <input type="radio" id="title_3" name="title" value="M">
+                <label for="men">Mensualmente</label>
+            </p>
+            <p>
+                <input type="checkbox" id="termuse" name="termuse" value="">
+                <label for="termuse">Acepto el acuerdo de servicios</label>
+            </p>
+        </fieldset>
+
+        <input type="submit" value="Crear cuenta" id="botonCrear" />
+    </form>
+</body>

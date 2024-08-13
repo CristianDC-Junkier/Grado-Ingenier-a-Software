@@ -1,0 +1,118 @@
+//PRINCIPAL
+
+//antes de crear los procesos 
+//creacion de pipes
+
+tubobus[2];
+tubocliente[2];
+
+pipe(tubobus)
+pipe(tubocliente)
+
+//CreaProcesoBus
+
+creaproceso("bus",tubobus[0]);
+write(tubobus[1], &paramBus, sizeof(paramBus));
+
+//CreaProcesoCliente
+
+creaproceso("cliente",tubocliente[0]);
+write(tubocliente[1], &paramCliente, sizeof(paramCliente));
+
+//crea proceso
+int creaproceso (const char nombre[], int tubo)
+{
+...
+close(2);
+dup(tubo);
+...
+}
+
+
+
+//BUS
+
+//Estructura para copiar parametros
+struct paramBus;
+
+//leemos la tubería antes del primer parametro
+int tub=dub(2);
+close(2);
+open("/dev/tty",O_WRONLY); //devolvemos a la 2 su default
+read(tub, &paramBus, sizeof(paramBus));
+
+//asociamos parametros
+parambus.x;
+
+//Cliente
+
+//Estructura para copiar parametros
+struct paramCliente;
+
+//leemos la tubería antes del primer parametro
+int tub=dub(2);
+close(2);
+open("/dev/tty",O_WRONLY); //devolvemos a la 2 su default
+read(tub, &paramCliente, sizeof(paramCliente));
+
+//asociamos parametros
+paramCliente.x;
+-----------------------------------------------------
+
+xterm instalar
+//makefile
+Xterm principal servidor_ncurses cliente bus
+	xterm -geometry 150x50 -e ./principal
+
+o gnome
+
+gnome principal servidor_ncurses cliente bus
+	gnome-terminal -geometry 150x50 -- ./principal
+
+-----------------------------------------------------
+//Aburrmiento
+la señal 17 se manda automaticamente del hijo al padre cuando termina
+la señal 17 es ignorada.
+
+//Principal
+
+signal(17,f17)
+int terminados=0;
+
+void f17()
+{
+	wait(NULL);
+	terminados++;
+}
+
+//esperar terminación de los hijos
+while(terminados<maxclientes)
+{
+pause();
+}
+
+//Cliente
+
+//Despues de enviar el mensaje a la cola
+
+alarm(rand()%(aburrimientomax-aburrimientomin+1)+aburrimientomin);
+
+//comprobar que señal ha llegado
+if(llega12=1)
+{
+//anulamos alarma
+alarm(0);	
+...
+}
+else//llega 12
+{
+te borras de la parada
+te escribes en la cera
+}
+
+//BUS
+
+if(kill(pasajero.pid,12)!=-1)
+{
+	lo que ya ponia
+}

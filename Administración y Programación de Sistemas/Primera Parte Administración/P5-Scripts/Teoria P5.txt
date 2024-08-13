@@ -1,0 +1,34 @@
+ Script:
+Conjunto de lineas o pasos donde se ejecuta el fichero de forma secuencial(de arriba a abajo)
+para crear uno=texto+editor
+
+#asi se escribe un comentario
+#!/bin/bash
+#Autor:yo
+Se le puede colocar cualquier comando que hayamos visto
+se le debe dar permisos de ejecución para poderse ejecutar
+se puede romper antes la ejecución con exit o solo al final (como si fuera un return)
+se le puede pasar parametros segun necesite
+no se puede visualizar dentro de script las variables anteriores a menos que la exportemos
+A=10 para definir y asignar
+unset A para eliminar
+echo $A para mostrar
+
+RESUMEN
+
+Comentario->#
+comando->command
+ejecutar-> ./nombre_script
+ejecutar modo source->. nombre_script ó source nombre_script
+salir de script->exit[code],codigo puede y debe ser un numero
+consultar el resultado del anterior script-> $? == 0 significara bien.
+
+pasar parametros-> ./nombre_script a b 1 == a , b y 1 son 3 parametros diferentes
+considerando los parametros:
+nombre_script será $0, a será $1 asi sucesivamente hasta el 9 incluido a partir del 10 sería ${10}
+el numero de parametros-> $# == para saber cuantos parametros le pasamos
+lista de parametros-> $* == lista de parametros
+
+leer desde teclado-> read nombre_var== donde se almacenara la respuesta (machacando el valor si esta creada o creandola si no)
+export A-> para que las variables de la zona principal entren en el script
+si activamos el script con source, todas las variables se copian de padre a hijo y de hijo padre ademas tambien de los Alias etc

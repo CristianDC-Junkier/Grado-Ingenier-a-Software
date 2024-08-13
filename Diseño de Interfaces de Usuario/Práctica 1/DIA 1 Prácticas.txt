@@ -1,0 +1,15 @@
+Descargar Brackets aplicación
+Descargar Beautiful en archivo edicion -> control alt b para inciar
+
+<h1></h1>
+titulos primer nivel
+<h2></h2> titulo segundo nivel (etc)
+
+<strong></strong> negrita
+<em></em> cursiva
+
+<ol></ol> Listas ordenadas
+<ul></ul> Listas desordenadas
+<li></li> objeto de cada lista
+
+&nbsp; tabula y no se puede separar las palabras que conjuntan ese espacio

@@ -1,0 +1,226 @@
+<!-- R Commander Markdown Template -->
+
+Replace with Main Title
+=======================
+
+### Your Name
+
+### `r as.character(Sys.Date())`
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+
+```{r echo=FALSE}
+# include this code chunk as-is to enable 3D graphs
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+
+```{r}
+load("C:/Users/crist/Desktop/Mat 3/PRACTICA 1/RCars.RData")
+```
+
+
+```{r}
+summary(RCars)
+```
+
+
+```{r}
+RCars <- within(RCars, {
+  Cilindr_fac <- as.factor(cilindr)
+})
+```
+
+```{r}
+summary(RCars)
+```
+
+
+```{r}
+library(abind, pos=21)
+```
+
+
+```{r}
+library(e1071, pos=22)
+```
+
+
+```{r}
+numSummary(RCars[,c("cv", "peso"), drop=FALSE], statistics=c("mean", "sd", "se(mean)", 
+  "IQR", "quantiles", "cv", "skewness", "kurtosis"), quantiles=c(0,.25,.5,.75,1), type="2")
+binnedCounts(RCars[,c("cv", "peso"), drop=FALSE])
+```
+
+```{r}
+numSummary(RCars[,c("cv", "peso"), drop=FALSE], groups=RCars$origen, statistics=c("mean", 
+  "quantiles"), quantiles=c(0,.25,.5,.75,1,.3))
+```
+
+```{r}
+numSummary(RCars[,"acel", drop=FALSE], groups=RCars$origen, statistics=c("sd", 
+  "quantiles"), quantiles=c(0,.25,.5,.75,1,.3))
+```
+
+```{r}
+var(RCars$acel,na.rm=TRUE)
+```
+
+
+```{r}
+numSummary(RCars[,"acel", drop=FALSE], statistics=c("sd"), quantiles=c(0,.25,.5,.75,1))
+```
+
+```{r}
+summary(RCars)
+```
+
+
+```{r}
+numSummary(RCars[,c("consumo", "peso"), drop=FALSE], statistics=c("sd", "cv"), 
+  quantiles=c(0,.25,.5,.75,1))
+```
+
+```{r}
+var(RCars$consumo,na.rm=TRUE)
+```
+
+
+```{r}
+var(RCars$peso,na.rm=TRUE)
+```
+
+
+```{r}
+summary(RCars)
+```
+
+
+```{r}
+numSummary(RCars[,"consumo", drop=FALSE], groups=RCars$origen, statistics=c("skewness", 
+  "kurtosis"), quantiles=c(0,.25,.5,.75,1), type="1")
+```
+
+```{r}
+numSummary(RCars[,"peso", drop=FALSE], groups=RCars$origen, statistics=c("skewness", 
+  "kurtosis"), quantiles=c(0,.25,.5,.75,1), type="1")
+```
+
+```{r}
+Tapply(consumo ~ Cilindr_fac, mean, na.action=na.omit, data=RCars) # mean by groups
+```
+
+```{r}
+Tapply(consumo ~ Cilindr_fac + origen, mean, na.action=na.omit, data=RCars) 
+  # mean by groups
+```
+
+```{r}
+Tapply(consumo ~ Cilindr_fac + origen, median, na.action=na.omit, data=RCars) 
+  # median by groups
+```
+
+```{r}
+Tapply(consumo ~ Cilindr_fac + origen, sd, na.action=na.omit, data=RCars) # sd by groups
+```
+
+```{r}
+Tapply(consumo ~ Cilindr_fac + origen, sd, na.action=na.omit, data=RCars) # sd by groups
+```
+
+```{r}
+RCars <- within(RCars, {
+  consumo_hola <- as.factor(año)
+})
+```
+
+```{r}
+Tapply(consumo ~ Cilindr_fac + consumo_hola + origen, mean, na.action=na.omit, data=RCars) 
+  # mean by groups
+```
+
+```{r}
+RCars <- within(RCars, {
+  Año_fac <- as.factor(año)
+})
+```
+
+```{r}
+Tapply(consumo ~ Año_fac + Cilindr_fac + origen, mean, na.action=na.omit, data=RCars) 
+  # mean by groups
+```
+
+```{r}
+local({
+  .Table <- with(RCars, table(origen))
+  cat("\ncounts:\n")
+  print(.Table)
+  cat("\npercentages:\n")
+  print(round(100*.Table/sum(.Table), 2))
+})
+```
+
+```{r}
+local({
+  .Table <- xtabs(~origen+Cilindr_fac, data=RCars, subset=cilindr==4)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+})
+```
+
+```{r}
+local({
+  .Table <- xtabs(~Cilindr_fac+origen, data=RCars, subset=)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+})
+```
+
+```{r}
+local({
+  .Table <- xtabs(~Cilindr_fac+origen, data=RCars, subset=)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  cat("\nTotal percentages:\n")
+  print(totPercents(.Table))
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+})
+```
+
+```{r}
+local({
+  .Table <- xtabs(~Cilindr_fac+origen, data=RCars, subset=)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  cat("\nColumn percentages:\n")
+  print(colPercents(.Table))
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+})
+```
+
+```{r}
+local({
+  .Table <- xtabs(~Cilindr_fac+origen, data=RCars, subset=)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  cat("\nRow percentages:\n")
+  print(rowPercents(.Table))
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+})
+```
+

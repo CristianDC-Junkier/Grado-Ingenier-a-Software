@@ -1,0 +1,37 @@
+
+click derecho new session
+
+
+
+chmod puede ponerse en modo binario por ejemplo
+rwx=111 = 7
+r-x=101 = 5
+
+existiendo 3 veces rwx para propietario-grupo-otros
+por ejemplo
+rwx r-x --x
+chmod 751
+
+Lista de Comandos:
+*[comandos]*       *[flags]*     	*[argumentos]*   	      *[Uso]*
+   chmod           rwx rwx rwx                         		  cambiar los permisos
+   chown                                                	 cambiar propietario
+   ln		       		nombredirectorio,nombredestino		link
+   wc				nombre fichero			cuenta lineas,palabras y carácteres de fichero
+   sort								ordenar mediante codigo ACSI
+   tail				nombre fichero			    lee el final
+   head				nombre fichero			    lee el principio
+   grep				patron + nombre fichero		busca todas las lineas que sigan un patron en el fichero. -> Es complicado
+   find                         directorio patron 		busca en un directorio o en los directorios los ficheros que el nombre tengan el patron dado
+   df								sirve  para  visualizar  el  estado  de  los  discos  que  se  encuentran  montados  en  el sistema: tipo, capacidad
+   ps								sirve  para  mostrar  un  listado  de  los  procesos  que  actualmente  se  están ejecutando
+   kill				nombre proceso			sirve  para  enviar  señales  a  procesos.  Si  el  proceso  no  está  preparado para  recibir  la  señal, terminará inmediatamente su ejecución (morirá) (la 9)
+   top								Muestra información sobre los procesos activos en la máquina (como ps)
+   who								el listado de usuarios conectados en un momento dado a la máquina UNIX
+   whoamiman			who				da tu usuario
+   id				 			nombre  de  usuario  y  número  de  identificación  de  usuario  actual  (UID),  así como el nombre de los grupos y sus número de identificación (GID) a los que pertenezca.
+   date								Sirve para visualizar y cambiar la fecha y hora del computador UNIX. 
+   cal								muestra  un  calendario  del  mes  actual. 
+   tty								sirve  para  obtener  el  nombre  de  dispositivo  correspondiente  al  terminal  en  el  que  estamos trabajando (concretamente al que utilizamos como entrada estándar).
+   write 							El comando write permite a un usuario enviar mensajes a otro
+   mesg 				[y] [n] 		permite activar y desactivar la recepción de mensajes enviados mediante write

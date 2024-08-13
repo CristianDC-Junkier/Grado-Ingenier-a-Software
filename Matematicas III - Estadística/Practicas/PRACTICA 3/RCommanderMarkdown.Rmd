@@ -1,0 +1,159 @@
+<!-- R Commander Markdown Template -->
+
+Replace with Main Title
+=======================
+
+### Your Name
+
+### `r as.character(Sys.Date())`
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+
+```{r echo=FALSE}
+# include this code chunk as-is to enable 3D graphs
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+
+```{r}
+load("C:/Users/crist/Desktop/Mat 3/PRACTICA 3/RCars.RData")
+```
+
+
+```{r}
+library(colorspace, pos=23)
+```
+
+
+```{r}
+RCars <- within(RCars, {
+  Peso_fac <- as.factor(peso)
+})
+```
+
+```{r}
+with(RCars, piechart(Peso_fac, xlab="", ylab="", main="Peso_fac", col=rainbow_hcl(318), 
+  scale="percent"))
+```
+
+```{r}
+RCars <- within(RCars, {
+  peso_rec <- Recode(Peso_fac, 
+  '225:525="[225,525]"; 525:825="(525,825]"; 825:1125="(825,1125]"; 1125:1425="(1125,1425]"; 1425:1725="(1425,1725]"',
+   as.factor=TRUE)
+})
+```
+
+```{r}
+with(RCars, piechart(peso_rec, xlab="", ylab="", main="peso_rec", col=rainbow_hcl(113), 
+  scale="percent"))
+```
+
+```{r}
+RCars <- within(RCars, {
+  peso_rec <- Recode(peso, 
+  '225:525="[225,525]"; 525:825="(525,825]"; 825:1125="(825,1125]"; 1125:1425="(1125,1425]"; 1425:1725="(1425,1725]";',
+   as.factor=TRUE)
+})
+```
+
+```{r}
+summary(RCars)
+```
+
+
+```{r}
+with(RCars, piechart(peso_rec, xlab="", ylab="", main="peso_rec", col=rainbow_hcl(5), 
+  scale="percent"))
+```
+
+```{r}
+local({
+  .Table <- with(RCars, table(peso_rec))
+  cat("\ncounts:\n")
+  print(.Table)
+  cat("\npercentages:\n")
+  print(round(100*.Table/sum(.Table), 2))
+})
+```
+
+```{r}
+with(RCars, Hist(peso, scale="frequency", breaks="Sturges", col="darkgray"))
+```
+
+```{r}
+with(RCars, Hist(peso, groups=origen, scale="frequency", breaks="Sturges", col="darkgray"))
+```
+
+```{r}
+with(RCars, Hist(motor, groups=origen, scale="frequency", breaks="Sturges", 
+  col="darkgray"))
+```
+
+```{r}
+with(RCars, Hist(motor, scale="frequency", breaks="Sturges", col="darkgray"))
+```
+
+```{r}
+with(RCars, Hist(motor, scale="frequency", breaks=c(0,2000,4000,6000,8000), 
+  col="darkgray"))
+```
+
+
+```{r}
+RCars <- within(RCars, {
+  año_fac <- as.factor(año)
+})
+```
+
+```{r}
+with(RCars, plotMeans(cv, año_fac, origen, error.bars="se", connect=TRUE, 
+  legend.pos="farright"))
+```
+
+```{r}
+with(RCars, plotMeans(cv, año_fac, origen, error.bars="none", connect=TRUE, 
+  legend.pos="farright"))
+```
+
+```{r}
+library(lattice, pos=24)
+```
+
+
+```{r}
+xyplot(consumo ~ peso, type="p", pch=16, auto.key=list(border=TRUE), 
+  par.settings=simpleTheme(pch=16), scales=list(x=list(relation='same'), 
+  y=list(relation='same')), data=RCars)
+```
+
+```{r}
+RCars <- within(RCars, {
+  cilindr_fac <- as.factor(cilindr)
+})
+```
+
+```{r}
+xyplot(consumo ~ peso, groups=cilindr_fac, type="p", pch=16, auto.key=list(border=TRUE), 
+  par.settings=simpleTheme(pch=16), scales=list(x=list(relation='same'), 
+  y=list(relation='same')), data=RCars)
+```
+
+```{r}
+xyplot(consumo ~ peso | origen, groups=cilindr_fac, type="p", pch=16, 
+  auto.key=list(border=TRUE), par.settings=simpleTheme(pch=16), 
+  scales=list(x=list(relation='same'), y=list(relation='same')), data=RCars)
+```
+
+```{r}
+Boxplot(consumo~origen, data=RCars, id=list(method="y"))
+```
+

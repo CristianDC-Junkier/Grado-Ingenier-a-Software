@@ -1,0 +1,1 @@
+var(DatosActivo$Variable,na.rm=TRUE)->Dispercion Relativa/Varianza

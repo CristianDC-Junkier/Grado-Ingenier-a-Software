@@ -1,0 +1,52 @@
+172.17.21.248
+nombre christian.delgado970(en minuscula)
+
+clear borra la pantalla
+tabulador=> te autocompleta (si le das dos veces te dice todos los archivos)
+flecha arriba auto completa con algo que ya hayas escrito
+
+~ es el directorio de usuario
+directorio de trabajo es el actual
+Ruta Absoluta=>declaramos(TODO) desde la raiz hasta donde lleguemos.
+Ruta relativa=>declaramos desde el directorio donde nos encontramos hasta el fichero correspondiente
+
+comodín *-> se sustituye por cualquier conjunto de caracteres.
+comodín ? -> se sustituye por cualquier caracter.
+comodín [x] -> se sustituye por cualquier caracter que este dentro del corchete
+comodín [!x] -> se sustituye por cualquier caracter que no sea el del corchete.
+comodín [1-n] -> se sustituye por cualquier caracter dentro del rango en codigo Acsi
+
+
+
+
+
+
+
+
+
+
+Control k + h para la ayuda del joe + q para salir
+Las Flags son un modificador del comando.
+exit para salir siempre que se pueda
+
+Lista de Comandos:
+*[comandos]* *[flags]*   *[argumentos]*   	*[Uso]*
+    ls				        	directorio actual
+    ls          -l		        	mucha informacion del directorio
+    cp                  namefile 1 y 2  	copiar
+    cp          -i      namefile 1 y 2  	copiar
+    cd		      ..(padre), .(elmismo)	cambiar al directorio
+    cd		        ~(usuario)      	cambiar al directorio
+    pwd						ruta absoluta del directorio donde me encuentro
+    mkdir               nombre directorio       creas directorio
+    rmdir		nombre directorio       borrar directorio
+    joe			nombre archivo		editor de texto
+    mv      		nombre fichero		mover fichero
+    rm                  nombre fichero		borrar fichero
+    cat			nombres de ficheros	concatenar ficheros
+    more		nombre fichero		visualizar ficheros grandes comodamente
+    echo		mensaje			mostrar por pantalla
+    clear					borrar pantalla
+    whatis		comando			te explica en una frase un comando
+    help		comando			te explica mas un comando
+    man 		comando			te explica bastante un comando

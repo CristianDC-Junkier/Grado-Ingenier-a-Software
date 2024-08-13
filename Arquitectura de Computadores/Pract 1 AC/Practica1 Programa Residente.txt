@@ -1,0 +1,25 @@
+.model small 
+.data
+
+Azul db 01h  ;para escribir en azul en el modo grafico
+
+.code
+
+mov ax,seg Azul 
+mov ds,ax    ;inicializo el segmento de datos
+
+mov al,13h   ;interrupcion para usar el modo grafico
+mov ah,0
+int 10h
+
+mov ax, 0A000h  ;se coloca el 0 delante para que no compile mal
+mov es, ax    ;inicializar el segmento extra
+
+;ejemplo
+mov bx,Azul 
+mov es:[0],bl ;primer pixel de pantalla en azul
+mov es:[2],bl ;segundo en azul
+
+mov ah,4ch ;devolver a el so el control
+int 21h
+end

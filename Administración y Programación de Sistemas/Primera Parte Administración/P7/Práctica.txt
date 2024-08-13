@@ -1,0 +1,23 @@
+1)software buscar gestor de paquetes synaptic
+2)buscar devede en Synaptic
+3)configuracion->repositorio->desclick,recargar
+4)buscar devede (ESTA VACIO) en Synaptic
+5)configuracion->repositorio->click,recargar
+6)software buscar boot-repair(no se encuentra)
+7)buscar boot-repair en Synaptic (no se encuentra)
+8)software y actualizaciones otro software añadir ppa:yannubuntu/boot-repair
+9)software buscar boot-repair
+10)1:7.2.5-0ubuntu0.21.10.3
+11)configuracion->repositorio->otro software->añadir,recargar
+12)1:7.3.1~rc3-0ubuntu0.21.10
+13)sudo apt install joe
+14)-
+15)apt list
+16)apt-cache search devede
+17)sudo apt install aptitude
+18)sudo aptitude install plank
+19)sudo aptitude autoclean
+20)apt install libcurses5-dev
+21)-
+22)-
+23)-

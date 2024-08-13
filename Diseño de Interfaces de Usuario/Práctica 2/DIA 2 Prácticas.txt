@@ -1,0 +1,21 @@
+
+inline-> dentro de las declaraciones de <h1> o <p> o <body> con
+style : ";"
+
+Interno->
+dentro del head
+
+externo->
+lo del head lo hacemos en un documento css aparte (un bloc de notas renombrado)
+y lo linkeamos dentro del fichero con:
+<link rel ="stylesheet" href ="estilo%202-3.css"> siento href el nombre del fichero
+
+<table class="default"> para crear la tabla
+
+<tr> filas
+            <th style="border-color: red; color: blue">CARDIO</th> columna etiqueta
+            <td>Horas</td> columna dato
+
+</tr>
+
+rowspawn = x para ocupar mas de una fila

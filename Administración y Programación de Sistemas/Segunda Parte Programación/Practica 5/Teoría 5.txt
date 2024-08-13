@@ -1,0 +1,52 @@
+Comunicación de procesos I
+FIFOS-------------------
+
+En una FIFO se pueden escribir cualquier tipo de dato
+pero hay que intentar no mezclarlos o pueden hacer que haya un problema
+
+Creación de fifo:
+int mkfifo(char *path, modo_t modo)
+debe ser creada por un proceso.
+los procesos cuantos y como nosotros queramos sobre la fifo
+van a poder realizar acciones, como leer, escribir etc.
+
+para poder trabaja sobre una fifo ya creada
+int open(char *nombre,int operaciones,[int permisos])
+operaciones=>O_RDONLY O_WRONLY O_CREAT
+para abrir en escritura y lectura podemos poner
+O_RDWR ó O_RDONLY | O_WRONLY
+devuelve un valor 
+
+int read(int fichero,char *buffer,int nBytes);
+lee el numero de bytes, devuelve -1 error 0 si no hay nada.
+
+int write(int fichero,char *buffer,int nBytes);
+devuelve -1 error 0 si no escribe nada.
+
+int close(int fichero)
+cierra la conexión pero no la elimina
+--------------------------------
+
+para poder leer alguien debe escribir y al reves, (si y solo si) segun el open
+a menos que hagas open en lectura y escritura
+
+para hacer un read de una fifo, debe haber antes información, y en ese caso lo lee
+y lo saca de la FIFO
+en el caso que no tenga información si hay un proceso que escribe, se espera
+si no, devuelve 0.
+
+para escribir primero tiene que ver que alguien esta para leerlo, si no, la señal 13
+(sigripe) que indicará que nadie puede leer, y que pare su acción.
+
+para eliminar una fifo primero tienen que cerrar todos la conexion con la fifo
+todos los procesos que lo hayan abierto, y no cerrado.
+
+por ultimo:
+
+unlink(char * path) el que creo la FIFO, para eliminarla.
+puede eliminarse tambien con rm nombre del fichero.
+
+el color de la FIFO es marrón oscuro. 
+
+
+

@@ -1,0 +1,19 @@
+Arranque:
+joe /boor/grub/grub.cfg => no esta bien hacerlo
+(Fichero de arranque) (se regenera)
+ 10_linux y 30_os-prober estos si
+en etc/default/grub estan una copia
+sudo update-grub2
+dmesg para ver como se encuentra el sistema
+pstree arbol de procesos
+servicios=> /lib/systemd/system => *.service
+al habilitar -> fichero de configuracion (etc/systemd/system)
+journalctl
+servicios => active <- -> inactive 
+masked <- -> unmasked
+--------------
+cron / at
+crear tareas programadas
+
+cron.hourly,cron.daily,cron.weekly,cron.monthly en /etc
+atq listar tareas programadas

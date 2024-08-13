@@ -1,0 +1,7 @@
+Da conflicto, para arreglarlo simplemente excluimos la ip de la puerta de enlace
+con el comando: ip dhcp excluded-address 192.168.10.1
+pongo eigrp para tener conectividad total
+
+poniendo no service-dhcp podemos quitar eso en el router R1G1 para la segunda parte de la practica
+
+falta poner el nat por puertos

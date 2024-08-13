@@ -1,0 +1,180 @@
+CREATE OR REPLACE PROCEDURE practicandoexamen (
+    tarifap    VARCHAR2,
+    provinciap VARCHAR2,
+    añop       INTEGER
+) IS
+    contador1 INTEGER;
+    contador2 INTEGER;
+    noexiste EXCEPTION;
+    /*3*/
+    total_llamadas integer;
+    CURSOR p_clientes
+    is
+    Select cl.nombre,te.numero,ta.descripcion
+    from MF.cliente cl inner join mf.telefono te on te.cliente=cl.dni
+    inner join mf.tarifa ta using (tarifa,compañia)
+    where cl.provincia=provinciap;
+    
+    CURSOR p_llamadas(numtel mf.telefono.numero%type)
+    is
+    Select distinct lla.tf_origen
+    from MF.telefono te inner join mf.llamada lla on lla.tf_origen=te.numero
+    where lla.tf_destino=numtel
+    and extract(year from lla.fecha_hora)=añop;
+    /*2*/
+BEGIN
+    SELECT
+        COUNT(*)
+    INTO contador1
+    FROM
+        mf.tarifa ta
+    WHERE
+        ta.tarifa = tarifap;
+
+    IF contador1 = 0 THEN
+        SELECT
+            COUNT(*)
+        INTO contador2
+        FROM
+            mf.cliente cli
+        WHERE
+            cli.provincia = provinciap;
+
+        IF contador2 = 0 THEN
+            RAISE noexiste;
+        ELSE
+        for x in p_clientes loop
+        total_llamadas:=0;
+        dbms_output.put_line('Cliente: '||x.nombre||'   '||'Telefono: '
+                              || x.numero );
+        dbms_output.put_line('Tarifa: '||x.descripcion);
+        dbms_output.put_line('----------------------------------------------');
+        for y in p_llamadas(x.numero) loop
+        total_llamadas:= total_llamadas+1;
+        end loop;
+        if total_llamadas=0 then
+        dbms_output.put_line('No existen llamadas recibidas');
+        else
+        dbms_output.put_line('Total de llamadas: '||total_llamadas);
+        end if;
+        end loop;
+        END IF;
+    END IF;
+
+EXCEPTION
+    WHEN noexiste THEN
+        dbms_output.put_line('No hay tarifa llamada '
+                             || tarifap
+                             || ', ni tampoco provincia cuyo nombre sea '
+                             || provinciap);
+    WHEN OTHERS THEN
+        dbms_output.put_line('Ha ocurrido un error');
+END;
+----------------------
+
+
+
+create or replace PROCEDURE practicandoexamen (
+    tarifap    mf.tarifa.tarifa%type,
+    provinciap VARCHAR2,
+    añop       INTEGER
+) IS
+nada exception;
+contador1 integer;
+contador2 integer;
+totalnumeros integer;
+/*3*/
+cursor cprovincia
+is
+select cl.nombre, te.numero,ta.descripcion
+from mf.cliente cl inner join mf.telefono te on cl.dni=te.cliente
+inner join mf.tarifa ta using(tarifa,compañia)
+where cl.provincia=provinciap;
+
+cursor ctelefono(numtel mf.telefono.numero%type)
+is
+select distinct lla.tf_origen
+from mf.llamada lla 
+where lla.tf_destino=numtel
+and extract(year from lla.Fecha_hora)=añop;
+
+/*2*/
+totalsegundos integer;
+cursor ctarifa
+is
+select cl.nombre,te.numero
+from mf.cliente cl inner join mf.telefono te on te.cliente=cl.dni 
+where te.tarifa=tarifap;
+
+cursor ctelefono2(numtel mf.telefono.numero%type)
+is
+select lla.tf_destino,to_char(lla.fecha_hora, 'dd/mm/yy')as fecha,lla.duracion
+from mf.llamada lla 
+where lla.tf_origen=numtel
+and extract(year from lla.Fecha_hora)=añop;
+
+BEGIN
+Select count(*) into contador1
+from mf.tarifa ta
+where ta.tarifa=tarifap;
+if contador1=0 then
+Select count(*) into contador2
+from mf.cliente cl
+where cl.provincia=provinciap;
+if contador2=0 then
+raise nada;
+else
+dbms_output.put_line('Informe de llamada para la provincia '||provinciap||' año '||añop);
+dbms_output.put_line('----------------------------------------------');
+for x in cprovincia loop
+totalnumeros:=0;
+ dbms_output.put_line('Cliente: '||x.nombre||'   '||'Telefono: '
+                              || x.numero );
+        dbms_output.put_line('Tarifa: '||x.descripcion);
+        dbms_output.put_line('----------------------------------------------');
+for y in ctelefono(x.numero) loop
+totalnumeros:=totalnumeros+1;
+end loop;
+ if totalnumeros=0 then
+        dbms_output.put_line('No existen llamadas recibidas');
+        else
+        dbms_output.put_line('Total de llamadas: '||totalnumeros);
+end if;
+end loop;
+end if;
+else
+dbms_output.put_line('Informe de llamada para la tarifa '||tarifap||' año '||añop);
+dbms_output.put_line('----------------------------------------------');
+for a in ctarifa loop
+    totalnumeros:=0;
+    totalsegundos:=0;
+    dbms_output.put_line('Cliente: '||a.nombre||'   '||'Telefono: '
+                              || a.numero );
+    dbms_output.put_line('----------------------------------------------');
+    dbms_output.put_line('Telefono Destino        Duracion');
+    dbms_output.put_line('----------------------------------------------');
+for b in ctelefono2(a.numero) loop
+    totalnumeros:=totalnumeros+1;
+    totalsegundos:=totalsegundos+b.duracion;
+    dbms_output.put_line(b.tf_destino||'     '||b.duracion);
+end loop;
+if totalnumeros=0 then
+        dbms_output.put_line('No existen llamadas recibidas');
+else
+        dbms_output.put_line('Total llamadas    Duracion en horas');
+        dbms_output.put_line('----------------------------------------------');
+        dbms_output.put_line(totalnumeros||'              '||totalsegundos/3600);
+end if;
+end loop;
+end if;
+
+EXCEPTION
+when nada then
+   dbms_output.put_line('No hay tarifa llamada '
+                             || tarifap
+                             || ', ni tampoco provincia cuyo nombre sea '
+                             || provinciap);
+WHEN others then
+    dbms_output.put_line('Ha ocurrido un error');
+
+end;

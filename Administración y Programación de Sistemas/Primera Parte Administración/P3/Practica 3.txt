@@ -1,0 +1,23 @@
+1) echo Practica 3:Manejo de Shell - Inicio
+2) mkdir ./ModuloI/Practica3
+3) find ./ -size -100 -type f -printf %f"\t"%s"\n"
+4) cp /home/so/ficheros/infinito ./ModuloI/Practica3
+5) chmod -c 711 ./ModuloI/Practica3/infinito
+6) ./ModuloI/Practica3/infinito
+7) top en duplicate
+8) control + c
+9) ./ModuloI/Practica3/infinito &
+10) top
+11) ./ModuloI/Practica3/infinito fg
+12) find ./ -size -100 -type f -printf %f"\t"%s"\n" > ./ModuloI/Practica3/pequeños
+13) joe minfo
+14) find ../../etc -type f -mtime +100 2> /dev/null
+15) find ../../etc -type f -mtime +100 2> ./ModuloI/Practica3/err
+16) find ../../var -type f -name cr* &> ./ModuloI/Practica3/crons
+17)  find -type d | wc -l
+18)  who -q  | sort -r | cat> ./ModuloI/Practica3/usersort
+19) more $(find -type f -name [s,c]*)
+20) cp $(find -type f -mtime +15) ./ModuloI/Practica3
+21) more $(find ../../usr -type f -name RE*|head -2)
+22) echo "Práctica 3:Manejo de Shell Finalizada"
+23) exit

@@ -1,0 +1,177 @@
+mejoramos algunas cosas en principal y cliente
+
+//CLIENTE
+//visualiza un cliente (pintar o borrar)
+void visualiza(int cola, int parada, int inout, int pintaborra, int destino)
+{
+	struct tipo_elemento cll;
+	cll.tipo=2;
+	cll.pid=getpid();
+	cll.parada=parada;
+	cll.inout=intout;
+	cll.pintaborra=pintaborra;
+	cll.destino=destino;
+
+	msgsnd(cola, (struct tipo_elemento *) &cll, sizeof(cll)-sizeof(long),0);
+	if(pintaborra == PINTAR)
+	{
+		if(!llega10)
+			pause();
+		llega10=0;
+	}	
+}
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+//PRINCIPAL
+//Crear servidor grafico
+int creaservidorgrafico()
+{
+	char cadNP[10];
+	sprintf(cadNP, "%d" , NUM_PARADAS);
+
+	int pidSG=fork();
+
+	if (pidSG==-1)
+	{
+		prinf("Error: FORK del servidor ncurses...\n");
+		exit(-1);
+	}
+	else if (pidSG==0)
+	{
+		execl("servidor_ncurses","servidor_ncurses","NULL"); // si ponemos "5" entre null y el  nombre habra 5 colas.
+		prinf("Error: EXECL del servidor ncurses...\n");
+		exit(-1);
+	}
+
+	return pidSG;
+}
+
+//Crear Procesos: crea el proceso pasado por parametros
+void creaproceso(const char nombre[])
+{
+	int pidCL=fork();
+	if (pidCL==-1)
+	{
+		prinf("Error: FORK del Cliente...\n");
+		exit(-1);
+	}
+	else if (pidSG==0)
+	{
+		execl(nombre,nombre,"NULL");
+		prinf("Error: EXECL del Cliente...\n");
+		exit(-1);
+	}
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Creación del Bus.
+
+//el cliente y el autobus van a tener que comunicarse por una cola de mensajes
+//el autobus (proceso) es creado por el principal con la señal 12
+//la cola del bus es 20 y la de clientes es 18
+//el bus elimina la cola de mensajes 20 
+//el autobus espera una señal 10 para asegurarse que fue pintando
+//el autobus le manda la señal 12 al cliente, para que se suba al mismo
+//para el control de las paradas se utilizaran 6 fifos, donde el bus escribira y el cliente leera
+
+
+tipo_parada
+tipo (parada origen)
+pid
+destino
+
+//BUS
+
+//pintar autobus
+void visualiza(int cola, int parada)
+{
+	struct tipo_elemento cll;
+	cll.tipo=1;
+	cll.pid=getpid();
+	cll.parada=parada;
+	cll.inout=IN;
+	cll.pintaborra=PINTAR;
+	cll.destino=0;
+
+	msgsnd(cola, (struct tipo_elemento *) &cll, sizeof(cll)-sizeof(long),0);
+
+	if(!llega10)
+		pause();
+	llega10=0;
+}
+
+//Variables necesarias
+int llega10;
+
+//prepararse para la señal 10 y 12
+signal(10,f10);
+signal(12,f12);
+
+//inicialiar semilla rand
+srand(getpid());
+
+//Abrir la cola de mensajes para el servidor grafico
+key_t keyCola = ftok("./fichcola.txt", 20);
+int idCola=crea_cola(keyCola);
+
+//finalizacion del bus f12
+void f12() 
+{
+	exit(0);
+}
+
+//Bucle bus
+while(1)
+{ 
+pinta(idCola,1); 
+sleep(2); 
+pinta(idCola,12);
+sleep(2);
+pinta(idCola,2); 
+sleep(2); 
+pinta(idCola,23);
+sleep(2);
+pinta(idCola,3); 
+sleep(2); 
+pinta(idCola,34);
+sleep(2);
+pinta(idCola,4); 
+sleep(2); 
+pinta(idCola,45);
+sleep(2);
+pinta(idCola,5); 
+sleep(2); 
+pinta(idCola,56);
+sleep(2);
+pinta(idCola,6); 
+sleep(2); 
+pinta(idCola,61);
+sleep(2);
+}
+
+
+
+--------------------
+principal
+//crear bus
+int pidBUS=creaproceso("bus");
+
+//finalizacion del bus
+kill(pidBUS,12)
+
+//creo fifos y abro
+for (int i=1; i<=NUM_PARADAS; i++)
+{
+	sprintf(nombre, "fifo%d", i)
+	unlink(nombre);
+	mkfifo(nombre,0600);
+	fifos[i]=open(nombre,O_RDWR);
+}
+
+
+

@@ -1,0 +1,101 @@
+.MODEL SMALL
+.CODE 
+
+org 100h
+
+Programa_Int:
+JMP Reside
+;;;;; Declaración de variables
+contador int 18;
+cadena db 0,0,0,0;
+
+Rutina_Servicio PROC
+CLI
+; Salvar el contenido de los registros implicados en la rutina
+push AX;
+
+mov AL,1;
+sub contador,AL;
+
+CMP contador,0;
+JE igual0:
+JMP final:
+igual0: ;aqui sumamos 1 s
+CMP cadena[3],9;
+JE equal9:
+
+add cadena[3],AL;
+JMP final1:
+equal9:
+
+mov cadena[3],0;
+CMP cadena[2],5;
+JE equal5:
+
+add cadena[2],AL;
+JMP final2:
+equal5:
+
+mov cadena[2],0;
+
+CMP cadena[1],9;
+JE equalm9:
+
+add cadena[1],AL;
+JMP final3:
+equalm9:
+
+mov cadena[1],0;
+add cadena[0],AL;
+final1:
+final2:
+final3:
+final: ;aqui mostramos
+
+mov al,03h ;interrupcion modo texto
+mov ah,00h
+int 10h
+
+mov ax,0b813h
+mov es, ax
+mov di,0 
+
+add cadena[0],48;
+add cadena[1],48;
+add cadena[2],48;
+add cadena[3],48;
+
+;Imprimir por pantalla
+mov ah,00001111b
+mov al,cadena[0]
+mov es:[di],ax
+mov al,cadena[1]
+mov es:[di+2],ax
+mov al,58
+mov es:[di+4],ax
+mov al,cadena[2]
+mov es:[di+6],ax
+mov al,cadena[3]
+mov es:[di+8],ax
+
+
+POP AX;
+; Recupera el valor de los registros implicados en la rutina
+STI
+IRET
+ENDP
+Reside: ;etiqueta para determinar la dirección siguiente a la última de la rutina
+que debe quedar residente
+
+MOV DX, offset Rutina_Servicio
+MOV AX, 0
+MOV ES, AX
+MOV SI, Código_Int*4
+CLI
+MOV ES:[SI], DX
+MOV ES:[SI+2], CS
+STI
+MOV DX, offset Reside
+INT 27h
+
+END Programa_Int

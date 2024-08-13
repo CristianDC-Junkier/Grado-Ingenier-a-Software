@@ -1,0 +1,37 @@
+Clips
+Window-> Facts=hechos,Agenda=Reglas
+Execution-> watch=depuración
+(exit) -> salir
+file save para guardar
+file load para cargar
+
+Hechos-> Listas Ordenadas/Registros
+	(facts) -> numero y nombre de hechos
+	(assert (duck)) -> añade a hechos duck
+	(clear) -> borras todo
+	(retract x)-> borras el fact x
+	(retract *)-> borras todos los fact
+lista->(hunter-game duck Brian) ;nombre de la lista es hunter-game, duck y Brian son los valores
+
+&->And
+|->or
+- -> como espacio
+; -> para escribir mensajes sin que lo lea el codigo
+"duck"-> string=entre comillas
+
+Reglas
+	(defrule red-ligth)
+	   (light red)		;si existe en los hechos la lista light red
+	=>	     		;entonces
+	(printout t "Stop" crlf);lo que hace
+
+	(defrule green-ligth)
+	    (light green)
+	=>
+	(printout t "Go" crlf)
+Maximo
+(defrule max
+         (vector $? ?x $?)
+         (not(vector $? ?y&:(> ?y ?x) $?))
+         =>
+         (printout t "El maximo es " ?x crlf))

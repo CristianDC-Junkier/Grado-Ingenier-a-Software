@@ -1,0 +1,39 @@
+1era
+Experiencia en la redacción de historias de usuario:
+La experiencia adquirida del Product Owner en proyectos antecesores del actual puede servir de herramienta para la facilitación de la creación del proyecto, también puede influir la del Equipo de Scrum si se llevan a cabo talleres para la redacción de las historias. 
+Historias de usuario:
+Las historias de usuario tienen una estructura específica predefinida y son una forma simplista de documentar los requerimientos y funcionalidades que desea el cliente. Una historia de usuario incluye tres elementos sobre el requerimiento: ¿Quién?, ¿Qué? y ¿Por qué? Los requerimientos expresados en las historias de usuario son oraciones breves y fáciles de entender
+Criterios de aceptación de historias de usuario:
+Cada historia de usuario cuenta con sus propios criterios de aceptación. Los criterios de aceptación brindan claridad al equipo; eliminan la ambigüedad de los requerimientos, ayudando a alcanzar las expectativas.           El Product Owner define los criterios de aceptación al Equipo Scrum. En las reuniones de revisión del sprint, los criterios de aceptación brindan el contexto para que el Product Owner decida si la historia de usuario se ha completado de una buena forma o no.
+
+2da
+Métodos de estimación:
+Se pueden utilizar numerosos métodos de estimación para estimar historias de usuario: 
+Wideband Delphi -> Técnica de estimación basada en grupo para determinar la cantidad de trabajo necesario y el tiempo que tardará en completarse, estimaciones anónimas en solitario, que se comparan.
+Planning Poker -> Es un derivado de la técnica Wideband Delphi, la diferencia es que hay que asignar el valor de una carta de una baraja, si todos o la mayoría coinciden, el número de la carta será el valor estimado.
+Fist of Five -> Parecido al P.P. pero con los dedos de las manos, del 1 al 5, pero también se hará al finalizar para comprobar el grado de satisfacción con lo elegido.
+Affinity Estimation -> Cada grupo de trabajo coloca en una superficie el orden de la más compleja hasta la menos compleja, luego se rotan los grupos y pueden cambiar de lugar las historias, tras ello se discute por qué.
+Lo más importante de todos los métodos es la participación y debate, y que todas las estimaciones se repitan hasta llegar hasta un acuerdo colectivo.
+
+Historias de usuarios estimadas:
+Después de que las historias de usuario han sido estimadas por el Equipo Scrum, se consideran para ser historias de usuario estimadas, es decir, se evalúa si son suficientemente buenas las estimaciones.
+Reuniones de planificación del sprint:
+El equipo principal de Scrum considera las historias de usuario. Si no se hizo durante la creación o el refinamiento del Product Backlog, cada historia de usuario se evalúa y se le asigna una estimación con exactitud.
+Historias de usuario comprometidas:
+El Equipo Scrum se compromete a un número de historias de usuario estimadas que se pueden completar en el siguiente sprint teniendo en cuenta la velocidad. Las historias de usuario comprometidas se seleccionarán siempre según las prioridades definidas por el Product Owner.
+
+3era
+Lista de Tareas:            
+Contiene todas las tareas a las que se ha comprometido el Equipo Scrum en el actual sprint. Contiene descripciones de cada tarea, así como las estimaciones obtenidas durante el proceso de Identificar tareas
+Criterios de Estimación:
+Los criterios de estimación pueden expresarse de muchas formas. por ejemplo los puntos de historia y el tiempo ideal, los puntos de historia sirven para indicar el esfuerzo para llevar a cabo la tarea y el tiempo ideal es aquel el cual se calcula sobre lo que tardaría el equipo scrum si solo hubiera que hacer esa tarea.
+Effort Estimated Task List:
+La lista de tareas del esfuerzo estimado, es una lista de tareas asociadas con las historias de usuario incluidas en el sprint. La precisión de las estimaciones varía dependiendo de las habilidades del equipo.
+
+4ta
+Sprint Backlog:
+La lista de tareas que llevará a cabo el Equipo Scrum en el siguiente sprint se denomina Sprint Backlog. Es común que el Sprint Backlog esté representado en un tablero de tareas, el cual proporciona una constante representación visual del estado de las historias de usuario.
+Sprint Burndown Chart:
+Es una gráfica que muestra la cantidad de trabajo pendiente en el actual sprint.
+
+Tanto uno como el otro debe actualizarse cada día, al finalizar la jornada de trabajo

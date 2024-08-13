@@ -1,0 +1,249 @@
+model Mercado
+
+-- enumeration
+
+enum TipoComprador {Mayorista, Minorista, Restauradores}
+
+enum TipoProducto {Pescado, Carne, Fruta, Hortalizas}
+
+enum NivelCalidad {Excelente, Buena, Normal, Mala, MuyMala}
+
+enum TipoVehiculo {Camion, Furgoneta, Turismo}
+
+-- classes
+
+class Proveedor
+attributes
+   idProveedor  : Integer
+   Nombre : String
+   Telefono : Integer
+operations
+   ActualizarStock(idP : Integer)
+   AnadirProducto(idP : Integer) : Producto
+end
+
+class Nave
+attributes
+   idNave:Integer 
+   Direccion: String
+   Capacidad: Integer
+   Telefono: Integer
+   CalidadTotal: NivelCalidad
+   Productos: TipoProducto
+operations
+   eliminarProducto(idP : Integer, Cantidad : Integer)
+   eliminarProductosMalos()
+   ofertarProductos()
+end
+
+class Comprador
+attributes
+   idComprador  : Integer
+   Nombre : String
+   Telefono : Integer
+   TipoCompra : TipoComprador
+operations
+end
+
+class Compra
+attributes
+   idVenta: Integer
+   Cantidad: Integer
+   TipoProductoCompra: TipoProducto
+   PrecioTotal: Real
+   FechaCompra: String
+operations
+  generarDescuento() : Integer
+  elegirProducto(idProducto : Integer, Cantidad : Integer)
+  comprar()
+end
+
+class LineadeCompra
+attributes 
+   idLinea: Integer
+   Tipo: TipoProducto
+   Cantidad: Integer
+operations
+   determinarDemanda()
+end
+
+class Producto
+attributes
+   idProducto: Integer
+   Nombre: String
+   Tipo: TipoProducto
+   Stock: Integer
+   PrecioBase: Real
+   Calidad: NivelCalidad
+operations
+   getCalidad() : NivelCalidad
+   getPrecioBase() : Real
+   getStock() : Integer
+   determinarPrecio(OfertaDemanda : Integer)
+end
+
+abstract class Vehiculo
+attributes
+   idVehiculo: Integer
+   Capacidad: Integer
+   Cantidad: Integer
+   Matricula: String
+   Tipo: TipoVehiculo
+   TipoProductoTransporta: TipoProducto
+   idProducto : Integer
+operations
+end
+
+class Camion < Vehiculo
+attributes
+   Medidas: String
+   NumRuedas: Integer 
+operations
+end
+
+class Furgoneta < Vehiculo
+attributes
+   NumPuertas : Integer
+operations
+end
+
+class Turismo < Vehiculo
+attributes
+   NumPuertas : Integer
+   TaraMaxima : Integer
+operations
+end
+
+-- associations
+
+association Transporta between
+   Vehiculo[1..*] role vehiculo
+   Proveedor[1] role proveedor
+end
+
+association Utiliza between
+   Nave[1] role tienda
+   Proveedor[0..*] role vendedor
+end
+
+association Existe between
+   Nave[0..1] role nave
+   Producto[0..*] role productos
+end
+
+association Contiene between
+   Producto[1..*] role producto
+   LineadeCompra[0..*] role cantidad
+end
+
+association Realiza between
+   Comprador[1] role cliente
+   Compra[1..*] role compra
+end
+
+composition CompraLinea between
+   Compra[1] role conjunto
+   LineadeCompra[1..*] role linea
+end
+
+--constraints
+
+constraints
+
+context Vehiculo
+	inv VehiculoCantidad: Capacidad >= Cantidad
+	inv idDistintoV: Vehiculo.allInstances->forAll(v1, v2 | v1.idVehiculo <> v2.idVehiculo implies v1.Matricula <> v2.Matricula)
+	inv esunVehiculo: self.Tipo = TipoVehiculo::Furgoneta or  self.Tipo = TipoVehiculo::Turismo or self.Tipo = TipoVehiculo::Camion
+	inv vehiculotieneId: self.idVehiculo <> null
+	inv vehiculotieneCapacidad: self.Capacidad <> null
+	inv vehiculotieneProductoTipo: self.TipoProductoTransporta <> null
+        inv vehiculotieneProducto: self.idProducto<> null
+
+context Furgoneta
+	inv NumeroPuertasFurgo: NumPuertas >= 1
+	inv FurgoesFurgo: Furgoneta.allInstances->forAll(F | F.Tipo = TipoVehiculo::Furgoneta)
+
+context Turismo
+	inv MismaCapacidad: TaraMaxima < Capacidad
+	inv NumeroPuertasTurismo: NumPuertas >= 1
+	inv TurismoesTurismo: Turismo.allInstances->forAll(T | T.Tipo = TipoVehiculo::Turismo)
+
+context Camion
+	inv NumeroRuedasCamion: NumRuedas >= 4
+	inv CamionEsCamion: Camion.allInstances->forAll(C | C.Tipo = TipoVehiculo::Camion)
+	inv tieneMedidas: self.Medidas <> null
+
+context Nave
+	inv ProductosN:self.productos->forAll(P | self.Productos = P.Tipo)
+	inv idDistintoN: Nave.allInstances->forAll(n1, n2 | n1.idNave <> n2.idNave implies n1.Direccion <> n2.Direccion)
+	inv NavetieneId: self.idNave <> null
+	inv Navetienecapacidad: self.Capacidad > 0
+
+context Nave :: eliminarProducto(idP : Integer ,Cantidad : Integer) 
+	pre HayProducto: self.productos->exists(P | P.idProducto = idP and P.Stock >= Cantidad)
+
+context Nave :: eliminarProductosMalos() 
+	pre HayProductoMalo: self.productos->exists(P | P.Calidad = NivelCalidad::Mala or P.Calidad = NivelCalidad::MuyMala)
+
+context Nave :: ofertarProductos()
+	pre HayProductoNormal: self.productos->exists(P | P.Calidad = NivelCalidad::Normal)
+	post valeMenosahora: self.productos->forAll(P | P.PrecioBase < P.PrecioBase@pre)
+
+context Proveedor
+	inv idDistintoP: Proveedor.allInstances->forAll(p1, p2 | p1.idProveedor <> p2.idProveedor implies p1.Telefono <> p2.Telefono)
+	inv MinimoCamion: self.vehiculo->exists(v:Vehiculo | v.Tipo = TipoVehiculo::Camion)
+	inv MismoTipoProducto: self.vehiculo->forAll(v1,v2 | v1.TipoProductoTransporta = v2.TipoProductoTransporta)
+	inv ProveedorTieneId: self.idProveedor <> null
+	inv ProveedorTieneNombre: self.Nombre <> null
+
+context Proveedor :: ActualizarStock(idP : Integer)
+	pre VehiculoTransporta: self.vehiculo->exists(V | V.Cantidad > 0 and V.idProducto = idP)
+	pre ExisteEseProducto: self.tienda.productos->exists(P | P.idProducto = idP)  
+	post MasProducto: self.tienda.productos->forAll(P| P.idProducto = idP implies P.Stock > P.Stock@pre)
+	
+context Proveedor :: AnadirProducto(idP : Integer) : Producto
+	pre VehiculoTransportaParaAnadir: self.vehiculo->exists(V | V.Cantidad > 0 and V.idProducto = idP)
+	pre NoExisteEseProducto: self.tienda.productos->exists(P | P.idProducto <> idP)
+	post EsCreado: self.tienda.productos->exists(P | P.idProducto = idP)
+
+context Producto 
+	inv ProductoTieneId: self.idProducto <> null
+	inv ProductoTieneTipo: self.Tipo <> null
+	inv ProductoTieneNombre: self.Nombre <> null
+	inv ProductoTieneCalidad: self.Calidad <> null
+	inv ProductoHayCantidad: self.Stock >= 0 
+
+context LineadeCompra
+	inv CompraReal: self.producto->forAll(P | self.Cantidad <= P.Stock)
+	inv ProductosL: self.producto->forAll(P | self.Tipo = P.Tipo)
+	inv CompraNoVacia: LineadeCompra.allInstances->forAll(L | self.Cantidad > 0)
+	inv LineaTieneId: self.idLinea <> null
+	inv LineaTieneCantidad: self.Cantidad <> null
+	inv LineaTieneTipo: self.Tipo <> null
+
+context Compra
+	inv CompraCuando: Compra.allInstances->forAll(C | C.FechaCompra <> null)
+	inv CompraCantidad: Compra.allInstances->forAll(C | C.Cantidad <> null)
+	inv CompratieneId: self.idVenta <> null
+
+context  Compra :: generarDescuento() : Integer
+	pre CompraSuficiente: self.PrecioTotal >= 50 or self.Cantidad >= 25
+	post DescuentoMinimo: result <= self.PrecioTotal * 0.25
+
+context Compra ::elegirProducto(idProducto : Integer, Cantidad : Integer)
+        pre QuedayExisteProducto: self.linea.producto->exists(P | P.idProducto = idProducto and P.Stock >= Cantidad)
+
+context  Compra :: comprar()
+	pre algoelegido: self.Cantidad > 0 and self.PrecioTotal > 0
+
+context Comprador
+	inv dosCompradoresIguales: Comprador.allInstances->forAll(c1,c2 | c1 <> c2 implies c1.idComprador <> c2.idComprador)
+	inv idDistintoC: Comprador.allInstances->forAll(c1, c2 | c1.idComprador <> c2.idComprador implies c1.Telefono <> c2.Telefono)
+	inv TipoMayo: self.compra->forAll(C | C.Cantidad >= 50 implies self.TipoCompra = TipoComprador::Mayorista)
+	inv CompradorMayorista: self.compra->forAll(C1, C2| self.TipoCompra = TipoComprador::Mayorista implies C1.TipoProductoCompra = C2.TipoProductoCompra)
+	inv UnicaCompraDiaMayorista: self.compra->forAll( C1,C2 | self.TipoCompra = TipoComprador::Mayorista and C1 <> C2 implies C1.FechaCompra <> C2.FechaCompra )
+	inv CompradortieneId: self.idComprador <> null
+
+context Producto :: determinarPrecio(OfertaDemanda : Integer)
+        pre haycantidad: self.Stock > 0
+	post novalenada: self.PrecioBase > 0

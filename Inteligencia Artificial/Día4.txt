@@ -1,0 +1,5 @@
+watch para ver los hechos, reglas, para correguir errores
+
+watch facts=>Hechos
+watch rules=>Reglas
+watch activations=>Consecuentes

@@ -1,0 +1,103 @@
+<!-- R Commander Markdown Template -->
+
+Replace with Main Title
+=======================
+
+### Your Name
+
+### `r as.character(Sys.Date())`
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+
+```{r echo=FALSE}
+# include this code chunk as-is to enable 3D graphs
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+
+```{r}
+load("C:/Users/crist/Desktop/Mat 3/RCars.RData")
+```
+
+```{r}
+Consumo_Europa <- subset(RCars, subset=origen=="Europa", select=c(consumo))
+```
+
+```{r}
+summary(Consumo_Europa)
+```
+
+```{r}
+var(Consumo_Europa$consumo,na.rm=TRUE)
+```
+
+```{r}
+summary(RCars)
+```
+
+
+```{r}
+Tapply(consumo ~ origen, mean, na.action=na.omit, data=RCars) # mean by groups
+```
+
+```{r}
+Tapply(cilindr ~ origen, max, na.action=na.omit, data=RCars) # max by groups
+```
+
+```{r}
+cilindr_potencia <- subset(RCars, subset=cilindr != 8, select=c(cv))
+```
+
+```{r}
+summary(cilindr_potencia)
+```
+
+```{r}
+Europa_acel <- subset(RCars, subset=origen=="Europa",cilindr==4, select=c(acel))
+```
+
+```{r}
+Europa_acel <- subset(RCars, subset=origen=="Europa",cilindr==4, select=c(acel))
+```
+
+```{r}
+Europa_cilindr <- subset(RCars, subset=origen=="Europa" & cilindr==4, select=c(acel))
+```
+
+```{r}
+summary(Europa_cilindr)
+```
+
+```{r}
+Cv_Consumo <- subset(RCars, subset=consumo<=8, select=c(cv))
+```
+
+```{r}
+summary(Cv_Consumo)
+```
+
+```{r}
+Cilindr_Frecuencia <- subset(RCars, subset=cilindr==4 & cilindr==8)
+```
+
+```{r}
+summary(Cilindr_Frecuencia)
+```
+
+```{r}
+Cilindr_origen <- subset(RCars, subset=cilindr==4 | cilindr==8)
+```
+
+```{r}
+summary(Cilindr_origen)
+```
+
+

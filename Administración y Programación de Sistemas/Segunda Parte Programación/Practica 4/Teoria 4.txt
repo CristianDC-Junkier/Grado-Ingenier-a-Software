@@ -1,0 +1,55 @@
+wait() -> espera a que sus hijos terminen su ejecución (para hasta que termine 1 de sus hijos, devolviendo su PID)
+Solo funciona si tiene almenos un hijo, si  no, devuelve un -1
+pid_t/int wait (int *status) -> el estado lo rellena el proceso hijo que termine
+lo normal es hacer tantos wait como hijos se han creado
+
+exit()-> el proceso indica a su padre que ha terminado
+devuelve el estado: 
+exit(int status) que el padre recogera , por ejemplo exit(3) -> wait (/*3*/)
+
+el wait devolvera 16 bits, los 8 primeros seran un valor decimal, si es 0 habra terminado con un exit, y en los 8 siguientes 
+se mantendra el valor pasado por ejemplo en este caso 3
+para saber el status real podemos usar:
+wifexited devuelve un bool true si salimos por un exit
+wexitstatus nos devuelve el valor si era un exit
+wifsignaled devuelve true si salimos por una señal
+wtermsig nos devuelve el valor de la señal (cual fue)
+
+si un hijo hace exit() antes de que el padre haga wait(), se convierte en zombie llamado defunct
+con ps -ef | grep nombre podemos ver si el proceso esta defunct
+
+-----------------------------------------------------------------------------------------------------------------------------------
+señales
+un proceso puede=>
+
+ignorar la señal
+matar al proceso -> por defecto
+señal tratada por rutina
+
+si el proceso no esta preparado para tratar una señal el proceso morirá
+
+sigaction <--> signal
+
+sigaction(int signum(numero),
+		const struct sigaction *act(configuracion de la señal),
+		NULL);
+signal (int nº señal, nombre de la función a ejecutar)
+
+señales no predefinidas => 10,12,16,17,30,31 (que podemos configurar a nuestro gusto)
+
+si llega una señal es como una interrupción salta a la rutina de la señal
+
+si llega otra señal mientras se esta en una rutina de una señal si es la misma (mismo valor) se espera a que se termina la actual y se repite
+si no es la misma se interrumpe y se comienza con la otra
+
+no se guarda más de 1 en ningun caso.
+
+para mandar una señal usamos kill(pid_t pid, int sig);
+-----------------------------------------------------------
+int alarm (int nº segundos) -> se manda una señal para si mismo (proceso)
+se mandará la señal 14, si ponemos dos, el segundo devolverá cuantos segundos quedan para el anterior (SE USARÁ PARA EL ABURRIMIENTO)
+pause () -> para hasta que le llegue una señal cualquiera
+int sleep(nt segundos)-> como pause pero si  terminan los segundos tambien sigue.
+
+
+
